@@ -7,7 +7,7 @@ import {
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -31,6 +31,7 @@ const Jobs = () => {
         "Flutter",
         "Spring",
       ],
+      token: "123",
     },
     {
       name: "John Doe",
@@ -46,6 +47,7 @@ const Jobs = () => {
         "Flutter",
         "Spring",
       ],
+      token: "",
     },
     {
       name: "Fulan bin Fulin",
@@ -53,8 +55,16 @@ const Jobs = () => {
       location: "Bekasi, Jawa Barat",
       photo: "/assets/img/model-ian-dooley.jpg",
       skills: ["Phyton", "Golang", "Javascript", "Express", "Java", "Spring"],
+      token: "456",
     },
   ];
+
+  const [access, setAccess] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setAccess(token);
+  }, []);
 
   return (
     <>
@@ -151,9 +161,13 @@ const Jobs = () => {
                       </div>
                     </div>
                     <div className="col-auto">
-                      <Link href="#">
+                      <Link
+                        href={{
+                          pathname: "/profile",
+                          query: { user: access === item.token ? access : "" },
+                        }}
+                      >
                         <button
-                          //   id="btn-search"
                           type="button"
                           className="btn btn btn-primary border-2"
                         >

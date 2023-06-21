@@ -3,4 +3,14 @@
   padding: 1rem 7rem;
   background-color: white;
   top: 0;
+
+  .action {
+    .img-profile {
+      height: 40px;
+      width: 40px;
+      cursor: pointer;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
 }

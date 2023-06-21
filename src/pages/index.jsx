@@ -212,7 +212,7 @@ const Home = () => {
                       <h2>Lorem ipsum dolor sit amet</h2>
                     </div>
                     <div className="col-auto">
-                      <Link href="/login">
+                      <Link href="/">
                         <button
                           type="button"
                           className="btn btn-light border-2 pt-3 pb-3 ps-4 pe-4 fw-semibold"

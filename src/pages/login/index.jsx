@@ -1,8 +1,31 @@
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const Login = () => {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState(null);
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+
+    axios
+      .post("/api/auth/login", { email, password })
+      .then((response) => {
+        localStorage.setItem("token", response?.data?.token);
+
+        router.replace(`/profile?user=${response?.data?.token}`);
+      })
+      .catch(({ response }) => {
+        setErrMsg(response?.data?.message ?? "Something wrong in our server");
+      });
+  };
+
   return (
     <>
       <Head>
@@ -45,18 +68,15 @@ const Login = () => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
                   euismod ipsum et dui rhoncus auctor.
                 </p>
-                <form
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                  }}
-                >
+                <form onSubmit={handleLogin}>
                   <div className="mb-4">
                     <label className="form-label">Email</label>
                     <input
                       type="text"
                       className="input-login form-control"
                       placeholder="Masukkan alamat email"
-                      // onChange={(e) => setUsername(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
                     />
                   </div>
                   <div className="mb-4">
@@ -65,7 +85,8 @@ const Login = () => {
                       type="password"
                       className="input-login form-control"
                       placeholder="Masukkan kata sandi"
-                      // onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
                     />
                   </div>
                   <div className="d-flex justify-content-end mt-2">
@@ -83,7 +104,6 @@ const Login = () => {
                       id="btn-login"
                       type="submit"
                       className="btn btn-tertiary btn-lg mt-4 fw-semibold"
-                      // onClick={handleLogin}
                     >
                       Log in
                     </button>

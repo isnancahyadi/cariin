@@ -9,11 +9,12 @@ import {
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Tab from "./Tab";
+import Tabs from "./Tab";
 import Experience from "./Experience";
 import Portfolio from "./Portfolio";
+import { useRouter } from "next/router";
 
 const tabContent = [
   {
@@ -27,6 +28,15 @@ const tabContent = [
 ];
 
 const Profile = () => {
+  const router = useRouter();
+  const data = router.query;
+  const [access, setAccess] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setAccess(token);
+  }, []);
+
   return (
     <>
       <Head>
@@ -70,32 +80,36 @@ const Profile = () => {
                       Vestibulum erat orci, mollis nec gravida sed, ornare quis
                       urna. Curabitur eu lacus fringilla, vestibulum risus at.
                     </p>
-                    <Link href="#">
-                      <button
-                        type="button"
-                        className="btn btn btn-secondary mt-4 border-2 fw-semibold"
-                        style={{
-                          width: "100%",
-                          paddingTop: "0.5rem",
-                          paddingBottom: "0.5rem",
-                        }}
-                      >
-                        Edit Profil
-                      </button>
-                    </Link>
-                    <Link href="#">
-                      <button
-                        type="button"
-                        className="btn btn btn-primary mt-3 border-2 fw-semibold"
-                        style={{
-                          width: "100%",
-                          paddingTop: "0.5rem",
-                          paddingBottom: "0.5rem",
-                        }}
-                      >
-                        Hire
-                      </button>
-                    </Link>
+                    {access === data?.user ? (
+                      <Link href="/profile/edit">
+                        <button
+                          type="button"
+                          className="btn btn btn-secondary mt-4 border-2 fw-semibold"
+                          style={{
+                            width: "100%",
+                            paddingTop: "0.5rem",
+                            paddingBottom: "0.5rem",
+                          }}
+                        >
+                          Edit Profil
+                        </button>
+                      </Link>
+                    ) : (
+                      <Link href="/jobs/hire">
+                        <button
+                          type="button"
+                          className="btn btn btn-primary mt-3 border-2 fw-semibold"
+                          style={{
+                            width: "100%",
+                            paddingTop: "0.5rem",
+                            paddingBottom: "0.5rem",
+                          }}
+                        >
+                          Hire
+                        </button>
+                      </Link>
+                    )}
+
                     <div id="skills" className="mt-5 mb-5">
                       <h3 className="fw-semibold">Skill</h3>
                       <div className="d-inline">
@@ -157,13 +171,13 @@ const Profile = () => {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-12">
-                        <Tab>
+                        <Tabs>
                           {tabContent.map((tab, index) => (
-                            <Tab.TabPane key={`Tab-${index}`} tab={tab.title}>
+                            <Tabs.TabPane key={`Tab-${index}`} tab={tab.title}>
                               {tab.content}
-                            </Tab.TabPane>
+                            </Tabs.TabPane>
                           ))}
-                        </Tab>
+                        </Tabs>
                       </div>
                     </div>
                   </div>

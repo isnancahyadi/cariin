@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const Tab = ({ children, active = 0 }) => {
+const Tabs = ({ children, active = 0 }) => {
   const [activeTab, setActiveTab] = useState(active);
   const [tabsData, setTabsData] = useState([]);
 
@@ -47,6 +47,6 @@ const TabPane = ({ children }) => {
   return { children };
 };
 
-Tab.TabPane = TabPane;
+Tabs.TabPane = TabPane;
 
-export default Tab;
+export default Tabs;

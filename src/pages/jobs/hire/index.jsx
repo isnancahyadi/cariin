@@ -13,7 +13,9 @@ const Hire = () => {
         <title>Hiring | CariIn</title>
       </Head>
       <div className="Hire">
-        <NavigationBar />
+        <div style={{ boxShadow: "0 1px 3px rgba(0, 0, 0, 0.23)" }}>
+          <NavigationBar />
+        </div>
 
         <div id="content" className="container">
           <div
