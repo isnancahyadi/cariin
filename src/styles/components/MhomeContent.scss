@@ -1,0 +1,41 @@
+.MhomeContent {
+  position: relative;
+  .polka-dot {
+    background-image: radial-gradient(#ffffff 17%, transparent 17%);
+    background-position: 0 0;
+    background-size: 13px 13px;
+    position: absolute;
+    bottom: 11%;
+    left: 7%;
+    z-index: 2;
+  }
+
+  .img-bg-decoration {
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    background-color: #e2e5ed;
+    transform: rotate(-15.79deg);
+    z-index: -1;
+  }
+
+  .square-big {
+    width: 120px;
+    height: 120px;
+    background-color: $primary-color;
+    position: absolute;
+    bottom: -5%;
+    left: -5%;
+    z-index: 1;
+  }
+
+  .square-small {
+    width: 50px;
+    height: 50px;
+    background-color: $secondary-color;
+    position: absolute;
+    bottom: -10%;
+    left: 11%;
+    z-index: 1;
+  }
+}

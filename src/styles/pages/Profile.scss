@@ -1,0 +1,70 @@
+.Profile {
+  position: relative;
+  background-color: #f6f7f8;
+
+  .bg-decoration {
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    background-color: $primary-color;
+  }
+
+  #content {
+    #card-content {
+      margin-bottom: 10rem;
+      margin-top: 4rem;
+
+      #profile-id {
+        padding: 20px 25px;
+
+        .photo {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .bg-photo {
+            border-radius: 50%;
+            width: 170px;
+            height: 170px;
+            background-color: $secondary-color;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .card-img {
+              width: 150px;
+              height: 150px;
+              object-fit: cover;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+
+      #profile-content {
+        padding: 20px 25px;
+
+        .Tab {
+          .nav-underline {
+            gap: 2rem;
+            margin-bottom: 3rem;
+
+            .nav-item {
+              .nav-link {
+                color: #9ea0a5;
+                padding-bottom: 0.25rem;
+              }
+
+              .nav-link.active {
+                color: #1f2a36;
+                border-radius: 3px;
+                border-bottom-color: $primary-color;
+                border-bottom-width: 4px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

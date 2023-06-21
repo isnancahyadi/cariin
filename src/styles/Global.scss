@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  transition: all 0.2s linear;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+.content-to-center {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+  color: $secondary-color;
+}
+
+.btn {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-color-hover;
+    border-color: $primary-color-hover;
+  }
+
+  &:active,
+  &.active {
+    background: $primary-color-active !important;
+    border-color: $primary-color-active !important;
+  }
+}
+
+.btn-secondary {
+  background-color: white;
+  border-color: $primary-color;
+  color: $primary-color;
+
+  &:hover {
+    color: white;
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+
+  &:active,
+  &.active {
+    color: white;
+    background: $primary-color-active !important;
+    border-color: $primary-color-active !important;
+  }
+}
+
+.btn-light {
+  background-color: white;
+  border-color: $primary-color;
+  color: $primary-color;
+
+  &:hover {
+    color: white;
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+  }
+
+  &:active,
+  &.active {
+    color: white !important;
+    background: $secondary-color-active !important;
+    border-color: $secondary-color-active !important;
+  }
+}
+
+.btn-tertiary {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+  color: white;
+
+  &:hover {
+    color: white;
+    background-color: $secondary-color-hover;
+    border-color: $secondary-color-hover;
+  }
+
+  &:active,
+  &.active {
+    color: white !important;
+    background: $secondary-color-active !important;
+    border-color: $secondary-color-active !important;
+  }
+}

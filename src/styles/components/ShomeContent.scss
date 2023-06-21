@@ -1,0 +1,31 @@
+.ShomeContent {
+  position: relative;
+  .polka-dot {
+    background-image: radial-gradient(#ffffff 17%, transparent 17%);
+    background-position: 0 0;
+    background-size: 13px 13px;
+    position: absolute;
+    bottom: -4%;
+    left: -2.25%;
+    z-index: 2;
+  }
+
+  .img-bg-decoration {
+    width: 500px;
+    height: 400px;
+    position: absolute;
+    background-color: #e2e5ed;
+    transform: rotate(12.57deg);
+    z-index: -1;
+  }
+
+  .square-big {
+    width: 100px;
+    height: 100px;
+    background-color: $primary-color;
+    position: absolute;
+    top: -10%;
+    left: -6%;
+    z-index: 1;
+  }
+}

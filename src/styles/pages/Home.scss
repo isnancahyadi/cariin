@@ -1,0 +1,47 @@
+.Home {
+  .content {
+    height: 80vh;
+
+    #main-section,
+    #second-section,
+    #third-section,
+    #fourth-section,
+    #comment-section {
+      height: 100%;
+    }
+
+    #comment-section {
+      background-color: #f7f7f7;
+      margin-left: calc((-100vw + 100%) / 2);
+      margin-right: calc((-100vw + 100%) / 2);
+    }
+  }
+
+  .small-content {
+    height: 60vh;
+
+    #fifth-section,
+    #start-section {
+      height: 100%;
+    }
+
+    #start-section {
+      #card {
+        width: 1100px;
+        height: 200px;
+        background-color: $primary-color;
+        padding: 55px 60px;
+        border-radius: 35px 10px;
+        background-image: url("/assets/ornamen.svg");
+        background-repeat: no-repeat;
+        object-fit: cover;
+        background-position: center top 100%;
+
+        #title {
+          width: 250px;
+          color: white;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+.Jobs {
+  position: relative;
+  background-color: #f6f7f8;
+
+  .bg-decoration {
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    background-color: $primary-color;
+  }
+
+  #content {
+    margin-bottom: 10rem;
+    margin-top: 5.5rem;
+
+    .search {
+      position: relative;
+      margin-bottom: 1.5rem;
+
+      input {
+        height: 3.5rem;
+      }
+
+      .action {
+        position: absolute;
+        top: calc(10%);
+        right: 0.5rem;
+
+        #btn-category,
+        #btn-search {
+          padding-left: 2rem;
+          padding-right: 2rem;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+        }
+      }
+    }
+
+    .list {
+      background-color: white;
+      padding-top: 2rem;
+      padding-bottom: 4rem;
+
+      .photo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .bg-photo {
+          border-radius: 50%;
+          width: 110px;
+          height: 110px;
+          background-color: $secondary-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .card-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+  }
+}

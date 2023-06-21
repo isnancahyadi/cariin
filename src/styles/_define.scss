@@ -1,0 +1,23 @@
+// variables
+@import "./variables";
+
+// global
+@import "./Global.scss";
+
+// components
+@import "./components/NavigationBar.scss";
+@import "./components/MhomeContent.scss";
+@import "./components/ShomeContent.scss";
+@import "./components/ThomeContent.scss";
+@import "./components/CommentSection.scss";
+@import "./components/Footer.scss";
+@import "./components/ExperienceContent.scss";
+
+// pages
+@import "./pages/Home.scss";
+@import "./pages/Login.scss";
+@import "./pages/Register.scss";
+@import "./pages/Profile.scss";
+@import "./pages/EditProfile.scss";
+@import "./pages/Jobs.scss";
+@import "./pages/Hire.scss";

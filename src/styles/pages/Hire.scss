@@ -1,0 +1,47 @@
+.Hire {
+  background-color: #f6f7f8;
+
+  #content {
+    margin-bottom: 10rem;
+    margin-top: 3rem;
+
+    #profile-id {
+      padding: 20px 25px;
+
+      .photo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .bg-photo {
+          border-radius: 50%;
+          width: 170px;
+          height: 170px;
+          background-color: $secondary-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .card-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    #message-content {
+      padding-right: 4rem;
+      padding-left: 4rem;
+
+      #form-identity {
+        .form-label {
+          font-size: 14px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
