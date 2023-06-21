@@ -45,7 +45,7 @@ const Home = () => {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
                     euismod ipsum et dui rhoncus auctor.
                   </p>
-                  <Link href="/">
+                  <Link href="/jobs">
                     <button
                       type="button"
                       className="btn btn btn-primary border-2"
