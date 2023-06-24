@@ -3,6 +3,8 @@ import Link from "next/link";
 import axios from "axios";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { setCookie } from "cookies-next";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const router = useRouter();
@@ -11,15 +13,29 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState(null);
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
 
-    axios
-      .post("/api/auth/login", { email, password })
-      .then((response) => {
-        localStorage.setItem("token", response?.data?.token);
+    Swal.fire({
+      title: "Proses login...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
 
-        router.replace(`/profile?user=${response?.data?.token}`);
+    await axios
+      .post(process.env.NEXT_PUBLIC_LOGIN, { email, password })
+      .then(({ data }) => {
+        setCookie(process.env.NEXT_PUBLIC_TOKEN_NAME, data?.data?.token, {
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7,
+          path: "/",
+        });
+        Swal.fire({
+          title: "Login Sukses",
+          timer: 2000,
+          icon: "success",
+          showConfirmButton: false,
+        }).then(() => router.replace("/"));
       })
       .catch(({ response }) => {
         setErrMsg(response?.data?.message ?? "Something wrong in our server");

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faBell } from "@fortawesome/free-regular-svg-icons";
@@ -11,7 +12,7 @@ const NavigationBar = () => {
   const [access, setAccess] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
     setAccess(!!token);
   }, []);
 
