@@ -1,30 +1,41 @@
 import React from "react";
 
-const Experience = () => {
-  let companyDetail = [
-    {
-      logoCompany: "/assets/icon/logo-tokopedia.png",
-      jobTitle: "Engineer",
-      companyName: "Tokopedia",
-      interval: "Juli 2019 - Januari 2020",
-      time: "6 bulan",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum erat orci, mollis nec gravida sed, ornare quis urna. Curabitur eu lacus fringilla, vestibulum risus at.",
-    },
-    {
-      logoCompany: "/assets/icon/logo-shopee.png",
-      jobTitle: "Web Developer",
-      companyName: "Shopee",
-      interval: "Juli 2018 - Januari 2020",
-      time: "1 tahun 6 bulan",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum erat orci, mollis nec gravida sed, ornare quis urna. Curabitur eu lacus fringilla, vestibulum risus at.",
-    },
-  ];
+const Experience = ({ history }) => {
+  // let companyDetail = [
+  //   {
+  //     logoCompany: "/assets/icon/logo-tokopedia.png",
+  //     jobTitle: "Engineer",
+  //     companyName: "Tokopedia",
+  //     interval: "Juli 2019 - Januari 2020",
+  //     time: "6 bulan",
+  //     description:
+  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum erat orci, mollis nec gravida sed, ornare quis urna. Curabitur eu lacus fringilla, vestibulum risus at.",
+  //   },
+  //   {
+  //     logoCompany: "/assets/icon/logo-shopee.png",
+  //     jobTitle: "Web Developer",
+  //     companyName: "Shopee",
+  //     interval: "Juli 2018 - Januari 2020",
+  //     time: "1 tahun 6 bulan",
+  //     description:
+  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum erat orci, mollis nec gravida sed, ornare quis urna. Curabitur eu lacus fringilla, vestibulum risus at.",
+  //   },
+  // ];
+
+  // console.log(history);
 
   return (
     <div className="Experience">
-      {companyDetail.map((item, key) => (
+      {history.length === 0 ? (
+        <div className="text-center">
+          <h5 className="text-body-tertiary">Pengalaman tidak ditemukan</h5>
+        </div>
+      ) : (
+        <div className="text-center">
+          <h5 className="text-body-tertiary">Pengalaman ditemukan</h5>
+        </div>
+      )}
+      {/* {history.map((item, key) => (
         <div className="row mb-4" key={key}>
           <div className="col-md-2">
             <img
@@ -44,7 +55,7 @@ const Experience = () => {
             {key === companyDetail.length - 1 ? null : <hr />}
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

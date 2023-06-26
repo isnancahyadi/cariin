@@ -5,9 +5,12 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/reducer/userSlice";
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +33,7 @@ const Login = () => {
           maxAge: 60 * 60 * 24 * 7,
           path: "/",
         });
+        dispatch(setUser(data?.data?.user));
         Swal.fire({
           title: "Login Sukses",
           timer: 2000,

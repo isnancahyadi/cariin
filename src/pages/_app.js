@@ -2,15 +2,30 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "@/styles/_define.scss";
 
 import { Provider } from "react-redux";
-import { store } from "@/store";
+import { store, persistor } from "@/store";
 import Script from "next/script";
+import axios from "axios";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { getCookie } from "cookies-next";
+import { PersistGate } from "redux-persist/integration/react";
 
 config.autoAddCss = false;
 
 export default function App({ Component, pageProps }) {
+  axios.interceptors.request.use(
+    (config) => {
+      if (getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME)) {
+        config.headers["Authorization"] = `Bearer ${getCookie(
+          process.env.NEXT_PUBLIC_TOKEN_NAME
+        )}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
   return (
     <>
       <Script
@@ -32,7 +47,9 @@ export default function App({ Component, pageProps }) {
         }}
       />
       <Provider store={store}>
-        <Component {...pageProps} />
+        <PersistGate loading={null} persistor={persistor}>
+          <Component {...pageProps} />
+        </PersistGate>
       </Provider>
     </>
   );

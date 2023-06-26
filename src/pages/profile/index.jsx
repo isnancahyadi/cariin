@@ -9,33 +9,46 @@ import {
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
 import Tabs from "./Tab";
 import Experience from "./Experience";
 import Portfolio from "./Portfolio";
 import { useRouter } from "next/router";
-
-const tabContent = [
-  {
-    title: "Portofolio",
-    content: <Portfolio />,
-  },
-  {
-    title: "Pengalaman Kerja",
-    content: <Experience />,
-  },
-];
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const router = useRouter();
-  const data = router.query;
-  const [access, setAccess] = useState(false);
+  // const router = useRouter();
+  // const data = router.query;
+  // const [access, setAccess] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setAccess(token);
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   setAccess(token);
+  // }, []);
+
+  // const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  // axios.get(process.env.NEXT_PUBLIC_PROFILE).then(({ data }) => {
+  //   setUser(data?.data);
+  //   // console.log(data?.data[0]);
+  // });
+  // }, []);
+
+  const user = useSelector((state) => state.user.data);
+
+  const tabContent = [
+    {
+      title: "Portofolio",
+      content: <Portfolio />,
+    },
+    {
+      title: "Pengalaman Kerja",
+      content: <Experience history={user?.job_history} />,
+    },
+  ];
 
   return (
     <>
@@ -58,43 +71,42 @@ const Profile = () => {
                       <div className="bg-photo">
                         <img
                           className="card-img"
-                          src="/assets/img/profile/profile.jpg"
+                          src={user?.photo}
                           alt="profile"
                         />
                       </div>
                     </div>
                     <div className="text-center mb-4">
-                      <h2 className="card-title">Isnan A. Cahyadi</h2>
+                      <h2 className="card-title">{user?.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        Web Developer
+                        {user?.job_title}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
-                        <FontAwesomeIcon icon={faLocationDot} /> Karawang, Jawa
-                        Barat
+                        <FontAwesomeIcon icon={faLocationDot} />{" "}
+                        {user?.domicile}
                       </span>
                     </div>
                     <p className="card-text text-body-tertiary">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Vestibulum erat orci, mollis nec gravida sed, ornare quis
-                      urna. Curabitur eu lacus fringilla, vestibulum risus at.
+                      {user?.description}
                     </p>
-                    {access === data?.user ? (
-                      <Link href="/profile/edit">
-                        <button
-                          type="button"
-                          className="btn btn btn-secondary mt-4 border-2 fw-semibold"
-                          style={{
-                            width: "100%",
-                            paddingTop: "0.5rem",
-                            paddingBottom: "0.5rem",
-                          }}
-                        >
-                          Edit Profil
-                        </button>
-                      </Link>
-                    ) : (
+                    {/* {access === data?.user ? ( */}
+                    <Link href="/profile/edit">
+                      <button
+                        type="button"
+                        className="btn btn btn-secondary mt-4 border-2 fw-semibold"
+                        style={{
+                          width: "100%",
+                          paddingTop: "0.5rem",
+                          paddingBottom: "0.5rem",
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faPencil} />
+                        &nbsp;&nbsp; Ubah Profil
+                      </button>
+                    </Link>
+                    {/* ) : (
                       <Link href="/jobs/hire">
                         <button
                           type="button"
@@ -108,28 +120,25 @@ const Profile = () => {
                           Hire
                         </button>
                       </Link>
-                    )}
+                    )} */}
 
                     <div id="skills" className="mt-5 mb-5">
                       <h3 className="fw-semibold">Skill</h3>
                       <div className="d-inline">
-                        {[
-                          "Phyton",
-                          "Laravel",
-                          "Golang",
-                          "Ruby",
-                          "Rust",
-                          "Javascript",
-                          "Express",
-                          "Java",
-                          "Kotlin",
-                          "Flutter",
-                          "Spring",
-                        ].map((item, key) => (
-                          <span key={key} className="badge bg-warning m-1 p-2 ">
-                            {item}
+                        {user?.skills?.length === 0 ? (
+                          <span className="text-body-tertiary">
+                            Skill tidak ditemukan
                           </span>
-                        ))}
+                        ) : (
+                          user?.skills.map((item, key) => (
+                            <span
+                              key={key}
+                              className="badge bg-warning m-1 p-2 "
+                            >
+                              {item}
+                            </span>
+                          ))
+                        )}
                       </div>
                     </div>
                     <div id="contact">

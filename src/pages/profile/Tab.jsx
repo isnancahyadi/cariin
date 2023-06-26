@@ -24,7 +24,7 @@ const Tabs = ({ children, active = 0 }) => {
     <div className="Tab w-100">
       <ul className="nav nav-underline">
         {tabsData.map(({ tab }, index) => (
-          <li className="nav-item">
+          <li className="nav-item" key={index}>
             <Link
               className={`nav-link ${index === activeTab ? "active" : ""}`}
               href="#"

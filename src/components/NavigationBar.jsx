@@ -1,13 +1,19 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faBell } from "@fortawesome/free-regular-svg-icons";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { reset } from "@/store/reducer/userSlice";
 
 const NavigationBar = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const [access, setAccess] = useState(false);
 
@@ -15,6 +21,16 @@ const NavigationBar = () => {
     const token = getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
     setAccess(!!token);
   }, []);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleLogout = () => {
+    deleteCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
+    dispatch(reset());
+    router.replace("/login");
+  };
 
   return (
     <div className="NavigationBar">
@@ -25,7 +41,7 @@ const NavigationBar = () => {
               <Link className="link" href="/">
                 <img
                   id="logo"
-                  src="/assets/icon/logo-cariin-v2.svg"
+                  src={"/assets/icon/logo-cariin-v2.svg"}
                   alt="Logo"
                   width="auto"
                   height="50"
@@ -53,10 +69,36 @@ const NavigationBar = () => {
                     <div className="col-auto me-3 ms-3">
                       <img
                         className="img-profile rounded-circle"
-                        src="/assets/img/profile/profile.jpg"
+                        src={user.photo}
                         alt="Profile"
-                        onClick={(e) => router.replace("/profile")}
+                        onClick={toggleDropdown}
                       />
+                      {dropdownOpen && (
+                        <div
+                          className="row dropdown-menu show justify-content-end text-end"
+                          style={{ right: "15vh" }}
+                        >
+                          <ul className="list-group list-group-flush">
+                            <li className="list-group-item">
+                              <Link
+                                className="text-black text-decoration-none mb-3 text-center"
+                                href="/profile"
+                              >
+                                Profil
+                              </Link>
+                            </li>
+                            <li className="list-group-item">
+                              <Link
+                                className="text-black text-decoration-none mb-3 text-center"
+                                href=""
+                                onClick={handleLogout}
+                              >
+                                Logout
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </>
                 ) : (
