@@ -27,7 +27,7 @@ const Tabs = ({ children, active = 0 }) => {
           <li className="nav-item" key={index}>
             <Link
               className={`nav-link ${index === activeTab ? "active" : ""}`}
-              href="#"
+              href=""
               onClick={() => setActiveTab(index)}
             >
               <h5>{tab}</h5>

@@ -16,7 +16,8 @@ import Experience from "./Experience";
 import Portfolio from "./Portfolio";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "@/store/reducer/userSlice";
 
 const Profile = () => {
   // const router = useRouter();
@@ -37,7 +38,12 @@ const Profile = () => {
   // });
   // }, []);
 
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
+
+  // useEffect(() => {
+  //   dispatch(getUser());
+  // }, [dispatch]);
 
   const tabContent = [
     {

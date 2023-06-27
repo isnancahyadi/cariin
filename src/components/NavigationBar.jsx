@@ -15,12 +15,12 @@ const NavigationBar = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const [access, setAccess] = useState(false);
+  // const [access, setAccess] = useState(false);
 
-  useEffect(() => {
-    const token = getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
-    setAccess(!!token);
-  }, []);
+  // useEffect(() => {
+  //   const token = getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
+  //   setAccess(token ? true : false);
+  // }, [access]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -50,7 +50,7 @@ const NavigationBar = () => {
             </div>
             <div className="action col-auto">
               <div className="row align-items-center">
-                {access ? (
+                {getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME) ? (
                   <>
                     <div className="col-auto me-3 ms-3">
                       <FontAwesomeIcon

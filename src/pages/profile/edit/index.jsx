@@ -3,10 +3,24 @@ import NavigationBar from "@/components/NavigationBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faPencil } from "@fortawesome/free-solid-svg-icons";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const EditProfile = () => {
+  const user = useSelector((state) => state.user.data);
+
+  const [fullname, setFullname] = useState(user.fullname);
+  const [phone, setPhone] = useState(user.phone);
+  const [jobDesk, setJobDesk] = useState(user.job_title);
+  const [domicile, setDomicile] = useState(user.domicile);
+  const [company, setCompany] = useState(user.company);
+  const [description, setDescription] = useState(user.description);
+
+  const registerHandle = () => {
+    console.log(fullname);
+  };
+
   return (
     <>
       <Head>
@@ -34,29 +48,29 @@ const EditProfile = () => {
                         </button>
                         <img
                           className="card-img"
-                          src="/assets/img/profile/profile.jpg"
+                          src={user.photo}
                           alt="profile"
                         />
                       </div>
                     </div>
                     <div className="text-center mb-4">
-                      <h2 className="card-title">Isnan A. Cahyadi</h2>
+                      <h2 className="card-title">{user.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        Web Developer
+                        {user.job_title}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
-                        <FontAwesomeIcon icon={faLocationDot} /> Karawang, Jawa
-                        Barat
+                        <FontAwesomeIcon icon={faLocationDot} /> {user.domicile}
                       </span>
                     </div>
                   </div>
                 </div>
-                <Link href="#">
+                <Link href="">
                   <button
                     type="button"
                     className="btn btn btn-primary mt-4 border-2 fw-semibold"
+                    onClick={registerHandle}
                     style={{
                       width: "100%",
                       paddingTop: "0.5rem",
@@ -66,7 +80,7 @@ const EditProfile = () => {
                     Simpan
                   </button>
                 </Link>
-                <Link href="#">
+                <Link href="/profile">
                   <button
                     type="button"
                     className="btn btn btn-secondary mt-3 border-2 fw-semibold"
@@ -107,7 +121,20 @@ const EditProfile = () => {
                             type="text"
                             className="in-edit-profile form-control"
                             placeholder="Masukkan nama lengkap"
-                            // onChange={(e) => setUsername(e.target.value)}
+                            defaultValue={fullname}
+                            onChange={(e) => setFullname(e.target.value)}
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <label className="form-label text-body-tertiary">
+                            No. Handphone
+                          </label>
+                          <input
+                            type="text"
+                            className="in-edit-profile form-control"
+                            placeholder="Masukkan no. handphone"
+                            defaultValue={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                           />
                         </div>
                         <div className="mb-4">
@@ -118,7 +145,8 @@ const EditProfile = () => {
                             type="text"
                             className="in-edit-profile form-control"
                             placeholder="Masukkan job desk"
-                            // onChange={(e) => setUsername(e.target.value)}
+                            defaultValue={jobDesk}
+                            onChange={(e) => setJobDesk(e.target.value)}
                           />
                         </div>
                         <div className="mb-4">
@@ -129,7 +157,8 @@ const EditProfile = () => {
                             type="text"
                             className="in-edit-profile form-control"
                             placeholder="Masukkan domisili"
-                            // onChange={(e) => setUsername(e.target.value)}
+                            defaultValue={domicile}
+                            onChange={(e) => setDomicile(e.target.value)}
                           />
                         </div>
                         <div className="mb-4">
@@ -140,7 +169,8 @@ const EditProfile = () => {
                             type="text"
                             className="in-edit-profile form-control"
                             placeholder="Masukkan tempat kerja"
-                            // onChange={(e) => setPassword(e.target.value)}
+                            defaultValue={company}
+                            onChange={(e) => setCompany(e.target.value)}
                           />
                         </div>
                         <div className="mb-4">
@@ -150,6 +180,8 @@ const EditProfile = () => {
                           <textarea
                             className="in-edit-profile form-control"
                             placeholder="Tuliskan deskripsi singkat"
+                            defaultValue={description}
+                            onChange={(e) => setDescription(e.target.value)}
                             rows="4"
                           ></textarea>
                         </div>
