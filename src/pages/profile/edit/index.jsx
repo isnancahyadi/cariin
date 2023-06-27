@@ -67,8 +67,12 @@ const EditProfile = () => {
 
     const postPersonalData = () =>
       axios.patch(process.env.NEXT_PUBLIC_PROFILE, payload);
-    const postSkills = () =>
-      axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
+    const postSkills = () => {
+      if (skills?.length === 0) {
+        return null;
+      }
+      return axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
+    };
 
     await Promise.all([postPersonalData(), postSkills()])
       .then(() => {
