@@ -1,24 +1,117 @@
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faPencil } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faPencil,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import Head from "next/head";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "@/store/reducer/userSlice";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const EditProfile = () => {
-  const user = useSelector((state) => state.user.data);
+  const router = useRouter();
+  const user = useSelector((state) => state?.user?.data);
+  const dispatch = useDispatch();
 
-  const [fullname, setFullname] = useState(user.fullname);
-  const [phone, setPhone] = useState(user.phone);
-  const [jobDesk, setJobDesk] = useState(user.job_title);
-  const [domicile, setDomicile] = useState(user.domicile);
-  const [company, setCompany] = useState(user.company);
-  const [description, setDescription] = useState(user.description);
+  const [fullname, setFullname] = useState(user?.fullname);
+  const [phone, setPhone] = useState(user?.phone);
+  const [jobDesk, setJobDesk] = useState(user?.job_title);
+  const [domicile, setDomicile] = useState(user?.domicile);
+  const [company, setCompany] = useState(user?.company);
+  const [description, setDescription] = useState(user?.description);
 
-  const registerHandle = () => {
-    console.log(fullname);
+  const [inputSkills, setinputSkills] = useState("");
+  const [skills, setSkills] = useState([]);
+
+  const onKeyDownSkill = (e) => {
+    const { key } = e;
+    const trimmedInput = inputSkills.trim();
+
+    if (
+      key === "Enter" &&
+      trimmedInput.length &&
+      !skills.includes(trimmedInput)
+    ) {
+      e.preventDefault();
+      setSkills((prevState) => [...prevState, trimmedInput]);
+      setinputSkills("");
+    }
+  };
+
+  const deleteTag = (key) => {
+    setSkills((prevState) => prevState.filter((tag, i) => i !== key));
+  };
+
+  const editHandle = async () => {
+    const payload = {
+      fullname,
+      company,
+      job_title: jobDesk,
+      phone,
+      description,
+      domicile,
+    };
+
+    Swal.fire({
+      title: "Harap tunggu...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
+
+    const postPersonalData = () =>
+      axios.patch(process.env.NEXT_PUBLIC_PROFILE, payload);
+    const postSkills = () =>
+      axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
+
+    await Promise.all([postPersonalData(), postSkills()])
+      .then(() => {
+        dispatch(getUser());
+        Swal.fire({
+          title: "Edit Berhasil",
+          text: "Profil anda berhasil diubah.",
+          icon: "success",
+        }).then(() => {
+          router.replace("/profile");
+        });
+      })
+      .catch((response) => console.log(response));
+  };
+
+  const deleteSkillHandle = (item, key) => {
+    Swal.fire({
+      title: "Hapus Skill",
+      text: `Apakah anda yakin ingin menghapus skill ${item} ?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Iya",
+      cancelButtonText: "Tidak",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Harap tunggu...",
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading(),
+        });
+        axios
+          .delete(`${process.env.NEXT_PUBLIC_SKILL}/${key}`)
+          .then(() => {
+            dispatch(getUser());
+            Swal.fire({
+              title: "Hapus Berhasil",
+              text: `Berhasil menghapus skill ${item}.`,
+              icon: "success",
+            });
+          })
+          .catch((response) => console.log(response));
+      }
+    });
   };
 
   return (
@@ -64,13 +157,40 @@ const EditProfile = () => {
                         <FontAwesomeIcon icon={faLocationDot} /> {user.domicile}
                       </span>
                     </div>
+                    <div className="mt-5 mb-5">
+                      <h3 className="fw-semibold">Skill</h3>
+                      <div className="d-inline">
+                        {user?.skills?.length === 0 ? (
+                          <span className="text-body-tertiary">
+                            Skill tidak ditemukan
+                          </span>
+                        ) : (
+                          user?.skills.map((item, key) => (
+                            <div
+                              key={key}
+                              className="d-inline-flex badge bg-warning align-items-center justify-content-center mt-3 m-1 p-2"
+                              style={{ whiteSpace: "nowrap", gap: ".5em" }}
+                            >
+                              <span>{item}</span>
+                              <button
+                                className="border border-0 text-white p-0"
+                                style={{ backgroundColor: "unset" }}
+                                onClick={() => deleteSkillHandle(item, key)}
+                              >
+                                <FontAwesomeIcon icon={faXmark} size="lg" />
+                              </button>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <Link href="">
                   <button
                     type="button"
                     className="btn btn btn-primary mt-4 border-2 fw-semibold"
-                    onClick={registerHandle}
+                    onClick={editHandle}
                     style={{
                       width: "100%",
                       paddingTop: "0.5rem",
@@ -203,37 +323,41 @@ const EditProfile = () => {
                     </div>
                     <hr />
                     <div id="form-identity">
-                      <form
-                        onSubmit={(event) => {
-                          event.preventDefault();
-                        }}
-                      >
-                        <div className="mb-4">
-                          <div className="row g-3 mt-3">
-                            <div className="col-10">
-                              <input
-                                type="text"
-                                className="in-edit-profile form-control"
-                                placeholder="Masukkan skill"
-                                // onChange={(e) => setUsername(e.target.value)}
-                              />
+                      <div className="mb-2">
+                        <div className="row g-3 mt-3">
+                          <div className="col-12">
+                            <input
+                              type="text"
+                              className="in-edit-profile form-control"
+                              placeholder="Masukkan skill"
+                              value={inputSkills}
+                              onKeyDown={onKeyDownSkill}
+                              onChange={(e) => setinputSkills(e.target.value)}
+                            />
+                            <div>
+                              <small className="text-muted">
+                                *tekan enter untuk menambahkan
+                              </small>
                             </div>
-                            <div className="col-2">
-                              <button
-                                id="btn-save"
-                                type="submit"
-                                className="btn btn-tertiary fw-semibold"
-                                // onClick={handleLogin}
+                            {skills.map((skill, key) => (
+                              <div
+                                key={key}
+                                className="d-inline-flex badge bg-warning align-items-center justify-content-center mt-3 m-1 p-2"
+                                style={{ whiteSpace: "nowrap", gap: ".5em" }}
                               >
-                                Simpan
-                              </button>
-                            </div>
+                                <span>{skill}</span>
+                                <button
+                                  className="border border-0 text-white p-0"
+                                  style={{ backgroundColor: "unset" }}
+                                  onClick={() => deleteTag(key)}
+                                >
+                                  <FontAwesomeIcon icon={faXmark} size="lg" />
+                                </button>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                        {/* <div className="d-grid">
-                          
-                        </div> */}
-                      </form>
+                      </div>
                     </div>
                   </div>
                 </div>
