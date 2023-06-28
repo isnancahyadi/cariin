@@ -6,6 +6,7 @@ import {
   faPencil,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { faImage } from "@fortawesome/free-regular-svg-icons";
 import Head from "next/head";
 import React, { useState } from "react";
 import Link from "next/link";
@@ -29,6 +30,15 @@ const EditProfile = () => {
 
   const [inputSkills, setinputSkills] = useState("");
   const [skills, setSkills] = useState([]);
+
+  const [expPos, setExpPos] = useState("");
+  const [expCompany, setExpCompany] = useState("");
+  const [expDate, setExpDate] = useState("");
+  const [expDesc, setExpDesc] = useState("");
+  const [expImg, setExpImg] = useState(null);
+  const [expViewImg, setExpViewImg] = useState(null);
+  const [expImgName, setExpImgName] = useState("");
+  const [experience, setExperience] = useState([]);
 
   const onKeyDownSkill = (e) => {
     const { key } = e;
@@ -68,13 +78,19 @@ const EditProfile = () => {
     const postPersonalData = () =>
       axios.patch(process.env.NEXT_PUBLIC_PROFILE, payload);
     const postSkills = () => {
-      if (skills?.length === 0) {
-        return null;
-      }
-      return axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
+      skills?.length === 0
+        ? null
+        : axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
     };
+    const postExperience = experience.map((obj) => {
+      return axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    });
 
-    await Promise.all([postPersonalData(), postSkills()])
+    await Promise.allSettled([postPersonalData(), postSkills(), postExperience])
       .then(() => {
         dispatch(getUser());
         Swal.fire({
@@ -116,6 +132,27 @@ const EditProfile = () => {
           .catch((response) => console.log(response));
       }
     });
+  };
+
+  const experienceHandle = (e) => {
+    e.preventDefault();
+
+    const payload = {
+      position: expPos,
+      company: expCompany,
+      date: expDate,
+      description: expDesc,
+      photo: expImg,
+    };
+
+    setExperience((prevState) => [...prevState, payload]);
+    setExpPos("");
+    setExpCompany("");
+    setExpDate("");
+    setExpDesc("");
+    setExpImg(null);
+    setExpViewImg(null);
+    setExpImgName("");
   };
 
   return (
@@ -172,7 +209,7 @@ const EditProfile = () => {
                           user?.skills.map((item, key) => (
                             <div
                               key={key}
-                              className="d-inline-flex badge bg-warning align-items-center justify-content-center mt-3 m-1 p-2"
+                              className="d-inline-flex badge bg-warning align-items-center justify-content-center m-1 p-2"
                               style={{ whiteSpace: "nowrap", gap: ".5em" }}
                             >
                               <span>{item}</span>
@@ -379,11 +416,7 @@ const EditProfile = () => {
                     </div>
                     <hr />
                     <div id="form-identity">
-                      <form
-                        onSubmit={(event) => {
-                          event.preventDefault();
-                        }}
-                      >
+                      <form id="experience" onSubmit={experienceHandle}>
                         <div className="mb-4">
                           <label className="form-label text-body-tertiary">
                             Posisi
@@ -392,7 +425,8 @@ const EditProfile = () => {
                             type="text"
                             className="in-edit-profile form-control"
                             placeholder="Masukkan posisi"
-                            // onChange={(e) => setUsername(e.target.value)}
+                            value={expPos}
+                            onChange={(e) => setExpPos(e.target.value)}
                           />
                         </div>
                         <div className="mb-4">
@@ -405,7 +439,8 @@ const EditProfile = () => {
                                 type="text"
                                 className="in-edit-profile form-control"
                                 placeholder="Masukkan nama perusahaan"
-                                // onChange={(e) => setUsername(e.target.value)}
+                                value={expCompany}
+                                onChange={(e) => setExpCompany(e.target.value)}
                               />
                             </div>
                             <div className="col-md-6">
@@ -415,8 +450,9 @@ const EditProfile = () => {
                               <input
                                 type="text"
                                 className="in-edit-profile form-control"
-                                placeholder="Masukkan bulan dan tahun"
-                                // onChange={(e) => setUsername(e.target.value)}
+                                placeholder="Masukkan bulan dan tahun. Cth : 07-2020"
+                                value={expDate}
+                                onChange={(e) => setExpDate(e.target.value)}
                               />
                             </div>
                           </div>
@@ -428,20 +464,107 @@ const EditProfile = () => {
                           <textarea
                             className="in-edit-profile form-control"
                             placeholder="Tuliskan deskripsi singkat"
-                            rows="4"
+                            value={expDesc}
+                            onChange={(e) => setExpDesc(e.target.value)}
+                            rows="7"
                           ></textarea>
+                        </div>
+                        <div className="mb-3">
+                          <div
+                            id="form-file"
+                            className="align-items-center justify-content-center d-flex"
+                            onClick={() =>
+                              document.querySelector(".img-selector").click()
+                            }
+                          >
+                            <input
+                              className="form-control img-selector"
+                              type="file"
+                              onChange={({ target: { files } }) => {
+                                if (files[0]) {
+                                  setExpImg(files[0]);
+                                }
+                                setExpImgName(files[0].name);
+                                setExpViewImg(URL.createObjectURL(files[0]));
+                              }}
+                              hidden
+                            />
+
+                            {expImg ? (
+                              <img
+                                className="img-preview"
+                                src={expViewImg}
+                                alt="Logo Perusahaan"
+                              />
+                            ) : (
+                              <>
+                                <FontAwesomeIcon
+                                  icon={faImage}
+                                  style={{
+                                    fontSize: "100px",
+                                    color: "#5e50a1",
+                                  }}
+                                />
+                                <p>
+                                  Tidak ada logo. Harap masukkan logo
+                                  perusahaan.
+                                </p>
+                              </>
+                            )}
+                          </div>
                         </div>
                         <div className="d-grid">
                           <button
                             id="btn-save"
                             type="submit"
                             className="btn btn-tertiary fw-semibold pt-2 pb-2"
-                            // onClick={handleLogin}
                           >
                             Tambah pengalaman kerja
                           </button>
                         </div>
                       </form>
+                      <div className="d-grid mt-3">
+                        <button
+                          id="btn-save"
+                          className="btn btn-tertiary fw-semibold pt-2 pb-2"
+                          onClick={() => console.log(experience)}
+                        >
+                          Tampil
+                        </button>
+                      </div>
+                      <div className="d-grid mt-3">
+                        {experience.map((item, key) => (
+                          // console.log(item);
+                          <div className="card mt-3" key={key}>
+                            <div className="row g-0">
+                              <div className="col-md-2">
+                                <img
+                                  src={URL.createObjectURL(item.photo)}
+                                  className="img-fluid rounded-start p-3"
+                                  alt="Logo Perusahaan"
+                                  style={{ width: "100%" }}
+                                />
+                              </div>
+                              <div className="col-md-10">
+                                <div className="card-body">
+                                  <h5 className="card-title fw-semibold">
+                                    {item.position}
+                                  </h5>
+                                  <h6 className="card-subtitle text-body-tertiary">
+                                    {item.company}
+                                  </h6>
+                                  <span className="text-body-tertiary">
+                                    {item.date}
+                                  </span>
+                                  <p className="card-text">
+                                    {item.description}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

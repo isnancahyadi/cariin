@@ -73,6 +73,23 @@
           font-size: 14px;
           margin: 0;
         }
+
+        #experience {
+          #form-file {
+            display: flex;
+            flex-direction: column;
+            border: 2px dashed $primary-color;
+            height: 250px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+
+            .img-preview {
+              height: 200px;
+              width: auto;
+            }
+          }
+        }
       }
     }
   }
