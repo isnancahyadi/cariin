@@ -39,11 +39,13 @@ const Profile = () => {
   // }, []);
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.data);
+  const user = useSelector((state) => state?.user?.data);
 
   // useEffect(() => {
   //   dispatch(getUser());
   // }, [dispatch]);
+
+  console.log(user);
 
   const tabContent = [
     {
