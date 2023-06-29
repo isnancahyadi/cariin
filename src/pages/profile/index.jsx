@@ -49,13 +49,13 @@ const Profile = () => {
 
   const tabContent = [
     {
-      title: "Portofolio",
-      content: <Portfolio />,
-    },
-    {
       title: "Pengalaman Kerja",
       content: <Experience history={user?.job_history} />,
     },
+    // {
+    //   title: "Portofolio",
+    //   content: <Portfolio />,
+    // },
   ];
 
   return (
