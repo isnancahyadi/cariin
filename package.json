@@ -28,6 +28,7 @@
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "sass": "^1.63.4",
-    "sweetalert2": "^11.7.12"
+    "sweetalert2": "^11.7.12",
+    "swr": "^2.2.0"
   }
 }

@@ -12,11 +12,19 @@ import Head from "next/head";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { storeJob } from "@/store/reducer/jobSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Jobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [jobList, setJobList] = useState([]);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state?.user?.data);
+
+  const removeData = (data, id) => {
+    return data.filter((obj) => obj.id !== id);
+  };
 
   useEffect(() => {
     Swal.fire({
@@ -28,8 +36,12 @@ const Jobs = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_JOB}?page=${currentPage}`)
       .then((response) => {
-        setJobList(response?.data?.data?.rows);
+        const lastData = removeData(response?.data?.data?.rows, user?.id);
+
+        setJobList(lastData);
         setTotalPage(response?.data?.data?.total_page);
+        dispatch(storeJob(response?.data?.data?.rows));
+
         Swal.fire({
           title: "Berhasil",
           timer: 2000,
@@ -41,8 +53,6 @@ const Jobs = () => {
         console.log(error);
       });
   }, [currentPage]);
-
-  console.log(currentPage);
 
   const pageNumber = [];
   for (let index = 1; index <= totalPage; index++) {
@@ -144,7 +154,7 @@ const Jobs = () => {
                       </div>
                     </div>
                     <div className="col-auto">
-                      <Link href="#">
+                      <Link href={`/jobs/${item.id}`}>
                         <button
                           type="button"
                           className="btn btn btn-primary border-2"

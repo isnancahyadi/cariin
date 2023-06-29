@@ -1,69 +1,47 @@
-import Footer from "@/components/Footer";
-import NavigationBar from "@/components/NavigationBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/router";
+import React from "react";
+import { useSelector } from "react-redux";
 import { faLocationDot, faPencil } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import {
   faInstagram,
   faGithub,
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
-import Head from "next/head";
-import React, { use, useEffect, useState } from "react";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import Experience from "../profile/Experience";
+import Portfolio from "../profile/Portfolio";
+import NavigationBar from "@/components/NavigationBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import Tabs from "./Tab";
-import Experience from "./Experience";
-import Portfolio from "./Portfolio";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "@/store/reducer/userSlice";
+import Head from "next/head";
+import Tabs from "../profile/Tab";
+import Footer from "@/components/Footer";
 
-const Profile = () => {
-  // const router = useRouter();
-  // const data = router.query;
-  // const [access, setAccess] = useState(false);
+const JobProfile = () => {
+  const { query } = useRouter();
+  const id = parseInt(query?.id);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   setAccess(token);
-  // }, []);
-
-  // const [user, setUser] = useState(null);
-
-  // useEffect(() => {
-  // axios.get(process.env.NEXT_PUBLIC_PROFILE).then(({ data }) => {
-  //   setUser(data?.data);
-  //   // console.log(data?.data[0]);
-  // });
-  // }, []);
-
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state?.user?.data);
-
-  // useEffect(() => {
-  //   dispatch(getUser());
-  // }, [dispatch]);
-
-  // console.log(user);
+  const jobProfile = useSelector((state) =>
+    state?.job?.job?.find((job) => job.id === id)
+  );
 
   const tabContent = [
     {
       title: "Pengalaman Kerja",
-      content: <Experience history={user?.job_history} />,
+      content: <Experience history={jobProfile?.job_history} />,
     },
     // {
-    //   title: "Portofolio",
-    //   content: <Portfolio />,
-    // },
+    //     title: "Portofolio",
+    //     content: <Portfolio />
+    // }
   ];
 
   return (
     <>
       <Head>
-        <title>Profil Saya | CariIn</title>
+        <title>Profil {jobProfile?.fullname} | CariIn</title>
       </Head>
-      <div className="Profile">
+      <div className="JobProfile">
         <NavigationBar />
         <div className="bg-decoration" />
         <div id="content">
@@ -79,66 +57,50 @@ const Profile = () => {
                       <div className="bg-photo">
                         <img
                           className="card-img"
-                          src={user?.photo}
+                          src={jobProfile?.photo}
                           alt="profile"
                         />
                       </div>
                     </div>
                     <div className="text-center mb-4">
-                      <h2 className="card-title">{user?.fullname}</h2>
+                      <h2 className="card-title">{jobProfile?.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        {user?.job_title}
+                        {jobProfile?.job_title}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
                         <FontAwesomeIcon icon={faLocationDot} />{" "}
-                        {user?.domicile}
+                        {jobProfile?.domicile}
                       </span>
                     </div>
                     <p className="card-text text-body-tertiary">
-                      {user?.description}
+                      {jobProfile?.description}
                     </p>
-                    {/* {access === data?.user ? ( */}
-                    <Link href="/profile/edit">
+                    <Link href="#">
                       <button
                         type="button"
-                        className="btn btn btn-secondary mt-4 border-2 fw-semibold"
+                        className="btn btn btn-primary mt-4 border-2 fw-semibold"
                         style={{
                           width: "100%",
                           paddingTop: "0.5rem",
                           paddingBottom: "0.5rem",
                         }}
                       >
-                        <FontAwesomeIcon icon={faPencil} />
-                        &nbsp;&nbsp; Ubah Profil
+                        Hire
                       </button>
                     </Link>
-                    {/* ) : (
-                      <Link href="/jobs/hire">
-                        <button
-                          type="button"
-                          className="btn btn btn-primary mt-3 border-2 fw-semibold"
-                          style={{
-                            width: "100%",
-                            paddingTop: "0.5rem",
-                            paddingBottom: "0.5rem",
-                          }}
-                        >
-                          Hire
-                        </button>
-                      </Link>
-                    )} */}
+                    {/* )}  */}
 
                     <div id="skills" className="mt-5 mb-5">
                       <h3 className="fw-semibold">Skill</h3>
                       <div className="d-inline">
-                        {user?.skills?.length === 0 ? (
+                        {jobProfile?.skills?.length === 0 ? (
                           <span className="text-body-tertiary">
                             Skill tidak ditemukan
                           </span>
                         ) : (
-                          user?.skills.map((item, key) => (
+                          jobProfile?.skills.map((item, key) => (
                             <span
                               key={key}
                               className="badge bg-warning m-1 p-2 "
@@ -209,4 +171,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default JobProfile;
