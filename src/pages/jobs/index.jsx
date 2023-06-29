@@ -10,61 +10,44 @@ import {
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const Jobs = () => {
-  let worker = [
-    {
-      name: "Isnan A. Cahyadi",
-      job: "Web Developer",
-      location: "Karawang, Jawa Barat",
-      photo: "/assets/img/profile/profile.jpg",
-      skills: [
-        "Phyton",
-        "Laravel",
-        "Golang",
-        "Ruby",
-        "Rust",
-        "Javascript",
-        "Express",
-        "Java",
-        "Kotlin",
-        "Flutter",
-        "Spring",
-      ],
-      token: "123",
-    },
-    {
-      name: "John Doe",
-      job: "Mobile Developer",
-      location: "Bekasi, Jawa Barat",
-      photo: "/assets/img/model-aykut-aktas.jpg",
-      skills: [
-        "Golang",
-        "Javascript",
-        "Express",
-        "Java",
-        "Kotlin",
-        "Flutter",
-        "Spring",
-      ],
-      token: "",
-    },
-    {
-      name: "Fulan bin Fulin",
-      job: "System Analyst",
-      location: "Bekasi, Jawa Barat",
-      photo: "/assets/img/model-ian-dooley.jpg",
-      skills: ["Phyton", "Golang", "Javascript", "Express", "Java", "Spring"],
-      token: "456",
-    },
-  ];
-
-  const [access, setAccess] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [jobList, setJobList] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setAccess(token);
-  }, []);
+    Swal.fire({
+      title: "Harap tunggu...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
+
+    axios
+      .get(`${process.env.NEXT_PUBLIC_JOB}?page=${currentPage}`)
+      .then((response) => {
+        setJobList(response?.data?.data?.rows);
+        setTotalPage(response?.data?.data?.total_page);
+        Swal.fire({
+          title: "Berhasil",
+          timer: 2000,
+          icon: "success",
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [currentPage]);
+
+  console.log(currentPage);
+
+  const pageNumber = [];
+  for (let index = 1; index <= totalPage; index++) {
+    pageNumber.push(index);
+  }
 
   return (
     <>
@@ -121,7 +104,7 @@ const Jobs = () => {
 
           <div className="list border border-1 rounded-2">
             <div className="container">
-              {worker.map((item, key) => (
+              {jobList.map((item, key) => (
                 <>
                   <div
                     className="row justify-content-center align-items-center"
@@ -140,13 +123,13 @@ const Jobs = () => {
                     </div>
                     <div className="col-md-9">
                       <div className="text-start">
-                        <h2 className="card-title">{item.name}</h2>
+                        <h2 className="card-title">{item.fullname}</h2>
                         <h6 className="card-subtitle mb-1 mt-1 text-body-secondary">
-                          {item.job}
+                          {item.job_title}
                         </h6>
                         <p className="text-body-tertiary m-0">
                           <FontAwesomeIcon icon={faLocationDot} />{" "}
-                          {item.location}
+                          {item.domicile}
                         </p>
                         <div className="d-inline-flex mt-2">
                           {item.skills.map((skill, index) => (
@@ -161,12 +144,7 @@ const Jobs = () => {
                       </div>
                     </div>
                     <div className="col-auto">
-                      <Link
-                        href={{
-                          pathname: "/profile",
-                          query: { user: access === item.token ? access : "" },
-                        }}
-                      >
+                      <Link href="#">
                         <button
                           type="button"
                           className="btn btn btn-primary border-2"
@@ -176,7 +154,7 @@ const Jobs = () => {
                       </Link>
                     </div>
                   </div>
-                  {key === worker.length - 1 ? null : (
+                  {key === jobList.length - 1 ? null : (
                     <hr className="mt-5 mb-5" />
                   )}
                 </>
@@ -186,10 +164,18 @@ const Jobs = () => {
 
           <div className="pagination">
             <div className="container d-flex justify-content-center align-items-center">
-              <Link href="#">
+              <Link
+                href=""
+                style={{
+                  pointerEvents: `${currentPage === 1 ? "none" : "auto"}`,
+                }}
+              >
                 <button
                   type="button"
                   className="btn btn btn-secondary border-1"
+                  onClick={() => {
+                    setCurrentPage(currentPage - 1);
+                  }}
                   style={{
                     width: "50px",
                     height: "50px",
@@ -197,17 +183,19 @@ const Jobs = () => {
                     marginLeft: ".5rem",
                     marginRight: ".5rem",
                   }}
+                  disabled={currentPage === 1}
                 >
                   <FontAwesomeIcon icon={faAngleLeft} />
                 </button>
               </Link>
-              {[...new Array(6)].map((item, key) => (
-                <Link href="#" key={key}>
+              {pageNumber.map((item, key) => (
+                <Link href="" key={key}>
                   <button
                     type="button"
                     className={`btn btn btn-secondary border-1 ${
-                      key === 0 ? "active" : ""
+                      currentPage === item ? "active" : ""
                     }`}
+                    onClick={() => setCurrentPage(item)}
                     style={{
                       width: "50px",
                       height: "50px",
@@ -216,11 +204,18 @@ const Jobs = () => {
                       marginRight: ".5rem",
                     }}
                   >
-                    <h6 className="m-0 p-0">{key + 1}</h6>
+                    <h6 className="m-0 p-0">{item}</h6>
                   </button>
                 </Link>
               ))}
-              <Link href="#">
+              <Link
+                href=""
+                style={{
+                  pointerEvents: `${
+                    currentPage === pageNumber.length ? "none" : "auto"
+                  }`,
+                }}
+              >
                 <button
                   type="button"
                   className="btn btn btn-secondary border-1"
@@ -231,6 +226,7 @@ const Jobs = () => {
                     marginLeft: ".5rem",
                     marginRight: ".5rem",
                   }}
+                  disabled={currentPage === pageNumber.length}
                 >
                   <FontAwesomeIcon icon={faAngleRight} />
                 </button>
