@@ -1,5 +1,5 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 const Tabs = ({ children, active = 0 }) => {
   const [activeTab, setActiveTab] = useState(active);

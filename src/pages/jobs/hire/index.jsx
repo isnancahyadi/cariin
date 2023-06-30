@@ -1,10 +1,11 @@
+import React from "react";
+import Head from "next/head";
+
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import Head from "next/head";
-import Link from "next/link";
-import React from "react";
 
 const Hire = () => {
   return (

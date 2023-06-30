@@ -1,20 +1,23 @@
+import React, { useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getUser } from "@/store/reducer/userSlice";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-regular-svg-icons";
 import {
   faLocationDot,
   faPencil,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { faImage } from "@fortawesome/free-regular-svg-icons";
-import Head from "next/head";
-import React, { useState } from "react";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "@/store/reducer/userSlice";
-import Swal from "sweetalert2";
-import axios from "axios";
-import { useRouter } from "next/router";
 
 const EditProfile = () => {
   const router = useRouter();
@@ -534,7 +537,6 @@ const EditProfile = () => {
                       </div>
                       <div className="d-grid mt-3">
                         {experience.map((item, key) => (
-                          // console.log(item);
                           <div className="card mt-3" key={key}>
                             <div className="row g-0">
                               <div className="col-md-2">

@@ -1,3 +1,11 @@
+import React, { useEffect, useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { storeJob } from "@/store/reducer/jobSlice";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,13 +15,6 @@ import {
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import Link from "next/link";
-import Swal from "sweetalert2";
-import axios from "axios";
-import { storeJob } from "@/store/reducer/jobSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 const Jobs = () => {
   const [currentPage, setCurrentPage] = useState(1);

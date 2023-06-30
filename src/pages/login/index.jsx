@@ -1,13 +1,14 @@
+import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import axios from "axios";
-import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
-import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
+
+import axios from "axios";
+import Swal from "sweetalert2";
+
 import { getUser } from "@/store/reducer/userSlice";
-// import { setUser } from "@/store/reducer/userSlice";
 
 const Login = () => {
   const router = useRouter();
@@ -35,7 +36,6 @@ const Login = () => {
           path: "/",
         });
         dispatch(getUser());
-        // dispatch(setUser(data?.data?.user));
         Swal.fire({
           title: "Login Sukses",
           timer: 2000,

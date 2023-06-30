@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { deleteCookie, getCookie } from "cookies-next";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,13 +14,6 @@ const NavigationBar = () => {
   const user = useSelector((state) => state.user.data);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // const [access, setAccess] = useState(false);
-
-  // useEffect(() => {
-  //   const token = getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
-  //   setAccess(token ? true : false);
-  // }, [access]);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);

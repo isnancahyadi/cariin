@@ -1,21 +1,23 @@
-import { useRouter } from "next/router";
 import React from "react";
+import Link from "next/link";
+import Head from "next/head";
+
+import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { faLocationDot, faPencil } from "@fortawesome/free-solid-svg-icons";
+
+import Experience from "../profile/Experience";
+import NavigationBar from "@/components/NavigationBar";
+import Tabs from "../profile/Tab";
+import Footer from "@/components/Footer";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import {
   faInstagram,
   faGithub,
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import Experience from "../profile/Experience";
-import Portfolio from "../profile/Portfolio";
-import NavigationBar from "@/components/NavigationBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import Head from "next/head";
-import Tabs from "../profile/Tab";
-import Footer from "@/components/Footer";
 
 const JobProfile = () => {
   const { query } = useRouter();
@@ -90,7 +92,6 @@ const JobProfile = () => {
                         Hire
                       </button>
                     </Link>
-                    {/* )}  */}
 
                     <div id="skills" className="mt-5 mb-5">
                       <h3 className="fw-semibold">Skill</h3>

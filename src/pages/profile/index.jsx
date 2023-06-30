@@ -1,5 +1,14 @@
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
+import Tabs from "./Tab";
+import Experience from "./Experience";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -8,44 +17,9 @@ import {
   faGithub,
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
-import Head from "next/head";
-import React, { use, useEffect, useState } from "react";
-import Link from "next/link";
-import Tabs from "./Tab";
-import Experience from "./Experience";
-import Portfolio from "./Portfolio";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "@/store/reducer/userSlice";
 
 const Profile = () => {
-  // const router = useRouter();
-  // const data = router.query;
-  // const [access, setAccess] = useState(false);
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   setAccess(token);
-  // }, []);
-
-  // const [user, setUser] = useState(null);
-
-  // useEffect(() => {
-  // axios.get(process.env.NEXT_PUBLIC_PROFILE).then(({ data }) => {
-  //   setUser(data?.data);
-  //   // console.log(data?.data[0]);
-  // });
-  // }, []);
-
-  const dispatch = useDispatch();
   const user = useSelector((state) => state?.user?.data);
-
-  // useEffect(() => {
-  //   dispatch(getUser());
-  // }, [dispatch]);
-
-  // console.log(user);
 
   const tabContent = [
     {
@@ -99,7 +73,6 @@ const Profile = () => {
                     <p className="card-text text-body-tertiary">
                       {user?.description}
                     </p>
-                    {/* {access === data?.user ? ( */}
                     <Link href="/profile/edit">
                       <button
                         type="button"
@@ -114,21 +87,6 @@ const Profile = () => {
                         &nbsp;&nbsp; Ubah Profil
                       </button>
                     </Link>
-                    {/* ) : (
-                      <Link href="/jobs/hire">
-                        <button
-                          type="button"
-                          className="btn btn btn-primary mt-3 border-2 fw-semibold"
-                          style={{
-                            width: "100%",
-                            paddingTop: "0.5rem",
-                            paddingBottom: "0.5rem",
-                          }}
-                        >
-                          Hire
-                        </button>
-                      </Link>
-                    )} */}
 
                     <div id="skills" className="mt-5 mb-5">
                       <h3 className="fw-semibold">Skill</h3>
