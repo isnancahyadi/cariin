@@ -30,6 +30,9 @@ const EditProfile = () => {
   const [domicile, setDomicile] = useState(user?.domicile);
   const [company, setCompany] = useState(user?.company);
   const [description, setDescription] = useState(user?.description);
+  const [profileImg, setProfileImg] = useState(null);
+  const [profileImgView, setProfileImgView] = useState(null);
+  const [profileImgName, setProfileImgName] = useState("");
 
   const [inputSkills, setinputSkills] = useState("");
   const [skills, setSkills] = useState([]);
@@ -92,8 +95,26 @@ const EditProfile = () => {
         },
       });
     });
+    const postPhotoProfile = () => {
+      profileImg === null
+        ? null
+        : axios.patch(
+            `${process.env.NEXT_PUBLIC_PROFILE}/picture`,
+            { photo: profileImg },
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+    };
 
-    await Promise.allSettled([postPersonalData(), postSkills(), postExperience])
+    await Promise.allSettled([
+      postPersonalData(),
+      postSkills(),
+      postExperience,
+      postPhotoProfile(),
+    ])
       .then(() => {
         dispatch(getUser());
         Swal.fire({
@@ -181,24 +202,55 @@ const EditProfile = () => {
                           <FontAwesomeIcon
                             icon={faPencil}
                             style={{ fontSize: "4rem" }}
+                            onClick={() =>
+                              document
+                                .querySelector(".profile-img-selector")
+                                .click()
+                            }
                           />
                         </button>
-                        <img
-                          className="card-img"
-                          src={user.photo}
-                          alt="profile"
+                        <input
+                          type="file"
+                          className="form-control profile-img-selector"
+                          onChange={({ target: { files } }) => {
+                            if (files[0]) {
+                              setProfileImg(files[0]);
+                            }
+                            setProfileImgName(files[0].name);
+                            setProfileImgView(URL.createObjectURL(files[0]));
+                          }}
+                          hidden
                         />
+                        {profileImgView ? (
+                          <img
+                            className="card-img"
+                            src={profileImgView}
+                            alt="profile"
+                          />
+                        ) : (
+                          <img
+                            className="card-img"
+                            src={user?.photo}
+                            alt="profile"
+                          />
+                        )}
+                        {/* <img
+                          className="card-img"
+                          src={user?.photo ?? profileImgView}
+                          alt="profile"
+                        /> */}
                       </div>
                     </div>
                     <div className="text-center mb-4">
-                      <h2 className="card-title">{user.fullname}</h2>
+                      <h2 className="card-title">{user?.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        {user.job_title}
+                        {user?.job_title}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
-                        <FontAwesomeIcon icon={faLocationDot} /> {user.domicile}
+                        <FontAwesomeIcon icon={faLocationDot} />{" "}
+                        {user?.domicile}
                       </span>
                     </div>
                     <div className="mt-5 mb-5">
