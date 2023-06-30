@@ -3,7 +3,8 @@ import Link from "next/link";
 import Head from "next/head";
 
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { sendHireTo } from "@/store/reducer/hireSlice";
 
 import Experience from "../profile/Experience";
 import NavigationBar from "@/components/NavigationBar";
@@ -11,7 +12,7 @@ import Tabs from "../profile/Tab";
 import Footer from "@/components/Footer";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import {
   faInstagram,
@@ -22,6 +23,9 @@ import {
 const JobProfile = () => {
   const { query } = useRouter();
   const id = parseInt(query?.id);
+
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const jobProfile = useSelector((state) =>
     state?.job?.job?.find((job) => job.id === id)
@@ -37,6 +41,11 @@ const JobProfile = () => {
     //     content: <Portfolio />
     // }
   ];
+
+  const hireHandle = (profile) => {
+    dispatch(sendHireTo(profile));
+    router.replace("/jobs/hire");
+  };
 
   return (
     <>
@@ -79,7 +88,7 @@ const JobProfile = () => {
                     <p className="card-text text-body-tertiary">
                       {jobProfile?.description}
                     </p>
-                    <Link href="#">
+                    <Link href="">
                       <button
                         type="button"
                         className="btn btn btn-primary mt-4 border-2 fw-semibold"
@@ -88,6 +97,7 @@ const JobProfile = () => {
                           paddingTop: "0.5rem",
                           paddingBottom: "0.5rem",
                         }}
+                        onClick={() => hireHandle(jobProfile)}
                       >
                         Hire
                       </button>
@@ -116,10 +126,16 @@ const JobProfile = () => {
                       <div className="mt-3 mb-3">
                         <span className="text-body-tertiary">
                           <FontAwesomeIcon icon={faEnvelope} size="lg" />
-                          &nbsp;&nbsp; isnan.arifc@gmail.com
+                          &nbsp;&nbsp; {jobProfile?.email}
                         </span>
                       </div>
                       <div className="mt-3 mb-3">
+                        <span className="text-body-tertiary">
+                          <FontAwesomeIcon icon={faPhone} size="lg" />
+                          &nbsp;&nbsp; {jobProfile?.phone}
+                        </span>
+                      </div>
+                      {/* <div className="mt-3 mb-3">
                         <span className="text-body-tertiary">
                           <FontAwesomeIcon icon={faInstagram} size="lg" />
                           &nbsp;&nbsp; @isnanarifc
@@ -136,7 +152,7 @@ const JobProfile = () => {
                           <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
                           &nbsp;&nbsp; Isnan Arif Cahyadi
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

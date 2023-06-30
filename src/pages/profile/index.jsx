@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
@@ -10,7 +10,11 @@ import Tabs from "./Tab";
 import Experience from "./Experience";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faPencil } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faPencil,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import {
   faInstagram,
@@ -111,10 +115,16 @@ const Profile = () => {
                       <div className="mt-3 mb-3">
                         <span className="text-body-tertiary">
                           <FontAwesomeIcon icon={faEnvelope} size="lg" />
-                          &nbsp;&nbsp; isnan.arifc@gmail.com
+                          &nbsp;&nbsp; {user?.email}
                         </span>
                       </div>
                       <div className="mt-3 mb-3">
+                        <span className="text-body-tertiary">
+                          <FontAwesomeIcon icon={faPhone} size="lg" />
+                          &nbsp;&nbsp; {user?.phone}
+                        </span>
+                      </div>
+                      {/* <div className="mt-3 mb-3">
                         <span className="text-body-tertiary">
                           <FontAwesomeIcon icon={faInstagram} size="lg" />
                           &nbsp;&nbsp; @isnanarifc
@@ -131,7 +141,7 @@ const Profile = () => {
                           <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
                           &nbsp;&nbsp; Isnan Arif Cahyadi
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

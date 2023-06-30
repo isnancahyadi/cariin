@@ -2,8 +2,6 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 
-// import { useSelector } from "react-redux";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,8 +13,6 @@ import CommentSection from "@/components/CommentSection";
 import Footer from "@/components/Footer";
 
 const Home = () => {
-  // const state = useSelector((state) => state);
-  // console.log(state);
   return (
     <>
       <Head>

@@ -527,15 +527,6 @@ const EditProfile = () => {
                         </div>
                       </form>
                       <div className="d-grid mt-3">
-                        <button
-                          id="btn-save"
-                          className="btn btn-tertiary fw-semibold pt-2 pb-2"
-                          onClick={() => console.log(experience)}
-                        >
-                          Tampil
-                        </button>
-                      </div>
-                      <div className="d-grid mt-3">
                         {experience.map((item, key) => (
                           <div className="card mt-3" key={key}>
                             <div className="row g-0">
