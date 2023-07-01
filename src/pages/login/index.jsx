@@ -1,22 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { getUser } from "@/store/reducer/userSlice";
+import { reset, getUser } from "@/store/reducer/userSlice";
+import { clearJob } from "@/store/reducer/jobSlice";
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const selector = useSelector((state) => state?.user?.data);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState(null);
+
+  useEffect(() => {
+    dispatch(reset());
+    dispatch(clearJob());
+  }, []);
+
+  console.log(selector);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -41,7 +50,11 @@ const Login = () => {
           timer: 2000,
           icon: "success",
           showConfirmButton: false,
-        }).then(() => router.replace("/"));
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            router.replace("/");
+          }
+        });
       })
       .catch(({ response }) => {
         setErrMsg(response?.data?.message ?? "Something wrong in our server");

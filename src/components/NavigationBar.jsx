@@ -1,19 +1,23 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { deleteCookie, getCookie } from "cookies-next";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faBell } from "@fortawesome/free-regular-svg-icons";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { reset } from "@/store/reducer/userSlice";
 
 const NavigationBar = () => {
+  const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    if (getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME)) setIsLogin(true);
+  }, []);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -21,8 +25,6 @@ const NavigationBar = () => {
 
   const handleLogout = () => {
     deleteCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
-    dispatch(reset());
-    router.replace("/login");
   };
 
   return (
@@ -43,7 +45,7 @@ const NavigationBar = () => {
             </div>
             <div className="action col-auto">
               <div className="row align-items-center">
-                {getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME) ? (
+                {isLogin ? (
                   <>
                     <div className="col-auto me-3 ms-3">
                       <FontAwesomeIcon
@@ -62,7 +64,7 @@ const NavigationBar = () => {
                     <div className="col-auto me-3 ms-3">
                       <img
                         className="img-profile rounded-circle"
-                        src={user.photo}
+                        src={user?.photo}
                         alt="Profile"
                         onClick={toggleDropdown}
                       />
@@ -83,7 +85,7 @@ const NavigationBar = () => {
                             <li className="list-group-item">
                               <Link
                                 className="text-black text-decoration-none mb-3 text-center"
-                                href=""
+                                href="/login"
                                 onClick={handleLogout}
                               >
                                 Logout
