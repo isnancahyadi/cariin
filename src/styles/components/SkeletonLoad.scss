@@ -1,0 +1,33 @@
+@keyframes skeleton {
+  to {
+    opacity: 0.5;
+  }
+}
+
+.ListJobSK {
+  animation: skeleton 0.5s ease infinite alternate;
+
+  .photo {
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
+    background-color: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-title,
+  .skill {
+    width: 50%;
+    height: 25px;
+    background-color: #e8e8e8;
+  }
+
+  .card-subtitle,
+  .location {
+    width: 25%;
+    height: 15px;
+    background-color: #e8e8e8;
+  }
+}

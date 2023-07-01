@@ -15,8 +15,10 @@ import {
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
+import SkeletonLoad from "@/components/SkeletonLoad";
 
 const Jobs = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [jobList, setJobList] = useState([]);
@@ -28,11 +30,7 @@ const Jobs = () => {
   };
 
   useEffect(() => {
-    Swal.fire({
-      title: "Harap tunggu...",
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading(),
-    });
+    setIsLoading(true);
 
     axios
       .get(`${process.env.NEXT_PUBLIC_JOB}?page=${currentPage}`)
@@ -42,13 +40,7 @@ const Jobs = () => {
         setJobList(lastData);
         setTotalPage(response?.data?.data?.total_page);
         dispatch(storeJob(response?.data?.data?.rows));
-
-        Swal.fire({
-          title: "Berhasil",
-          timer: 2000,
-          icon: "success",
-          showConfirmButton: false,
-        });
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -115,61 +107,65 @@ const Jobs = () => {
 
           <div className="list border border-1 rounded-2">
             <div className="container">
-              {jobList.map((item, key) => (
-                <>
-                  <div
-                    className="row justify-content-center align-items-center"
-                    key={key}
-                  >
-                    <div className="col-auto">
-                      <div className="photo">
-                        <div className="bg-photo">
-                          <img
-                            className="card-img"
-                            src={item.photo}
-                            alt="profile"
-                          />
+              {isLoading ? (
+                <SkeletonLoad type={"listjob"} />
+              ) : (
+                jobList.map((item, key) => (
+                  <>
+                    <div
+                      className="row justify-content-center align-items-center"
+                      key={key}
+                    >
+                      <div className="col-auto">
+                        <div className="photo">
+                          <div className="bg-photo">
+                            <img
+                              className="card-img"
+                              src={item.photo}
+                              alt="profile"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-md-9">
-                      <div className="text-start">
-                        <h2 className="card-title">{item.fullname}</h2>
-                        <h6 className="card-subtitle mb-1 mt-1 text-body-secondary">
-                          {item.job_title}
-                        </h6>
-                        <p className="text-body-tertiary m-0">
-                          <FontAwesomeIcon icon={faLocationDot} />{" "}
-                          {item.domicile}
-                        </p>
-                        <div className="d-inline-flex mt-2">
-                          {item.skills.map((skill, index) => (
-                            <span
-                              key={index}
-                              className="badge bg-warning m-1 p-2 "
-                            >
-                              {skill}
-                            </span>
-                          ))}
+                      <div className="col-md-9">
+                        <div className="text-start">
+                          <h2 className="card-title">{item.fullname}</h2>
+                          <h6 className="card-subtitle mb-1 mt-1 text-body-secondary">
+                            {item.job_title}
+                          </h6>
+                          <p className="text-body-tertiary m-0">
+                            <FontAwesomeIcon icon={faLocationDot} />{" "}
+                            {item.domicile}
+                          </p>
+                          <div className="d-inline-flex mt-2">
+                            {item.skills.map((skill, index) => (
+                              <span
+                                key={index}
+                                className="badge bg-warning m-1 p-2 "
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
+                      <div className="col-auto">
+                        <Link href={`/jobs/${item.id}`}>
+                          <button
+                            type="button"
+                            className="btn btn btn-primary border-2"
+                          >
+                            Lihat Profile
+                          </button>
+                        </Link>
+                      </div>
                     </div>
-                    <div className="col-auto">
-                      <Link href={`/jobs/${item.id}`}>
-                        <button
-                          type="button"
-                          className="btn btn btn-primary border-2"
-                        >
-                          Lihat Profile
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                  {key === jobList.length - 1 ? null : (
-                    <hr className="mt-5 mb-5" />
-                  )}
-                </>
-              ))}
+                    {key === jobList.length - 1 ? null : (
+                      <hr className="mt-5 mb-5" />
+                    )}
+                  </>
+                ))
+              )}
             </div>
           </div>
 

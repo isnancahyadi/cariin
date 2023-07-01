@@ -50,7 +50,7 @@ const Home = () => {
                         paddingBottom: "0.75rem",
                       }}
                     >
-                      Mulai Dari Sekarang
+                      Cari Talenta Sekarang
                     </button>
                   </Link>
                 </div>
