@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -21,9 +21,13 @@ import {
   faGithub,
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
+import { useRouter } from "next/router";
 
 const Profile = () => {
+  const router = useRouter();
   const user = useSelector((state) => state?.user?.data);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const tabContent = [
     {
@@ -35,6 +39,11 @@ const Profile = () => {
     //   content: <Portfolio />,
     // },
   ];
+
+  useEffect(() => {
+    if (!localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME))
+      router.replace("/login");
+  }, []);
 
   return (
     <>
@@ -67,6 +76,9 @@ const Profile = () => {
                       <h6 className="card-subtitle mb-2 text-body-secondary">
                         {user?.job_title}
                       </h6>
+                      <h6 className="card-subtitle mb-2 text-body-secondary">
+                        {user?.company}
+                      </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
@@ -86,9 +98,17 @@ const Profile = () => {
                           paddingTop: "0.5rem",
                           paddingBottom: "0.5rem",
                         }}
+                        onClick={() => setIsLoading(true)}
+                        disabled={isLoading}
                       >
-                        <FontAwesomeIcon icon={faPencil} />
-                        &nbsp;&nbsp; Ubah Profil
+                        {isLoading ? (
+                          <>Loading . . .</>
+                        ) : (
+                          <>
+                            <FontAwesomeIcon icon={faPencil} />
+                            &nbsp;&nbsp; Ubah Profil
+                          </>
+                        )}
                       </button>
                     </Link>
 

@@ -21,11 +21,14 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState(null);
 
   useEffect(() => {
+    if (localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME))
+      router.replace("/");
+  }, []);
+
+  useEffect(() => {
     dispatch(reset());
     dispatch(clearJob());
   }, []);
-
-  console.log(selector);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -39,11 +42,16 @@ const Login = () => {
     await axios
       .post(process.env.NEXT_PUBLIC_LOGIN, { email, password })
       .then(({ data }) => {
-        setCookie(process.env.NEXT_PUBLIC_TOKEN_NAME, data?.data?.token, {
-          sameSite: "strict",
-          maxAge: 60 * 60 * 24 * 7,
-          path: "/",
-        });
+        // console.log(data);
+        // setCookie(process.env.NEXT_PUBLIC_TOKEN_NAME, data?.data?.token, {
+        //   sameSite: "strict",
+        //   maxAge: 60 * 60 * 24 * 7,
+        //   path: "/",
+        // });
+        localStorage.setItem(
+          process.env.NEXT_PUBLIC_TOKEN_NAME,
+          data?.data?.token
+        );
         dispatch(getUser());
         Swal.fire({
           title: "Login Sukses",
@@ -57,7 +65,12 @@ const Login = () => {
         });
       })
       .catch(({ response }) => {
-        setErrMsg(response?.data?.message ?? "Something wrong in our server");
+        Swal.fire({
+          title: "Login Gagal",
+          text: response?.data?.messages ?? "Kesalahan Server",
+          icon: "error",
+        });
+        console.log(response);
       });
   };
 

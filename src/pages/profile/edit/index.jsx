@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -46,6 +46,11 @@ const EditProfile = () => {
   const [expImgName, setExpImgName] = useState("");
   const [experience, setExperience] = useState([]);
 
+  useEffect(() => {
+    if (!localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME))
+      router.replace("/login");
+  }, []);
+
   const onKeyDownSkill = (e) => {
     const { key } = e;
     const trimmedInput = inputSkills.trim();
@@ -88,13 +93,13 @@ const EditProfile = () => {
         ? null
         : axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
     };
-    const postExperience = experience.map((obj) => {
-      return axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+    const postExperience = experience.map((obj) =>
+      axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      });
-    });
+      })
+    );
     const postPhotoProfile = () => {
       profileImg === null
         ? null
@@ -113,6 +118,7 @@ const EditProfile = () => {
       postPersonalData(),
       postSkills(),
       postExperience,
+      // sendExperience(),
       postPhotoProfile(),
     ])
       .then(() => {
@@ -125,7 +131,35 @@ const EditProfile = () => {
           router.replace("/profile");
         });
       })
-      .catch((response) => console.log(response));
+      .catch(({ response }) => {
+        const getRes = Object.keys(response?.data?.messages);
+
+        let msgProperty = [];
+
+        getRes.map((item, key) => {
+          const {
+            [item]: { message },
+          } = response?.data?.messages;
+
+          msgProperty[key] = message;
+        });
+
+        Swal.fire({
+          title: "Update Gagal",
+          text: msgProperty.toString().split(".,").join(", "),
+          icon: "error",
+        });
+      });
+
+    // experience.map((obj) => {
+    //   Promise.allSettled([obj])
+    // })
+
+    // console.log(postExperience);
+
+    // await Promise.allSettled([postExperience]).then((result) => {
+    //   return result;
+    // });
   };
 
   const deleteSkillHandle = (item, key) => {

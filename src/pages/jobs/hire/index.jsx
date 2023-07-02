@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,6 +19,11 @@ const Hire = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state?.hire?.data);
+
+  useEffect(() => {
+    if (!localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME))
+      router.replace("/login");
+  }, []);
 
   const sendMsgHandle = async (e) => {
     e.preventDefault();

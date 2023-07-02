@@ -16,8 +16,13 @@ config.autoAddCss = false;
 export default function App({ Component, pageProps }) {
   axios.interceptors.request.use(
     (config) => {
-      if (getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME)) {
-        config.headers["Authorization"] = `Bearer ${getCookie(
+      // if (getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME)) {
+      //   config.headers["Authorization"] = `Bearer ${getCookie(
+      //     process.env.NEXT_PUBLIC_TOKEN_NAME
+      //   )}`;
+      // }
+      if (localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME)) {
+        config.headers["Authorization"] = `Bearer ${localStorage.getItem(
           process.env.NEXT_PUBLIC_TOKEN_NAME
         )}`;
       }

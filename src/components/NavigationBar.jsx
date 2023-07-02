@@ -16,7 +16,9 @@ const NavigationBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    if (getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME)) setIsLogin(true);
+    // if (getCookie(process.env.NEXT_PUBLIC_TOKEN_NAME)) setIsLogin(true);
+    if (localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME))
+      setIsLogin(true);
   }, []);
 
   const toggleDropdown = () => {
@@ -24,7 +26,8 @@ const NavigationBar = () => {
   };
 
   const handleLogout = () => {
-    deleteCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
+    // deleteCookie(process.env.NEXT_PUBLIC_TOKEN_NAME);
+    localStorage.clear();
   };
 
   return (

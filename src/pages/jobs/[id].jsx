@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -30,6 +30,11 @@ const JobProfile = () => {
   const jobProfile = useSelector((state) =>
     state?.job?.job?.find((job) => job.id === id)
   );
+
+  useEffect(() => {
+    if (!localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME))
+      router.replace("/login");
+  }, []);
 
   const tabContent = [
     {

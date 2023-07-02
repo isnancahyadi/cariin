@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -16,6 +16,11 @@ const Register = () => {
   const [phoneNum, setPhoneNum] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_NAME))
+      router.replace("/");
+  }, []);
 
   const handleRegister = async (event) => {
     event.preventDefault();
