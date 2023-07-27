@@ -113,8 +113,8 @@ const Login = () => {
               <div id="form-content" className="container-fluid">
                 <h2 className="text-semibold mb-3">Halo, Guys</h2>
                 <p className="fs-5 text-muted mb-5">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                  euismod ipsum et dui rhoncus auctor.
+                  Silahkan login ke dalam akun Anda untuk mengakses ribuan
+                  peluang karier menarik di industri teknologi.
                 </p>
                 <form onSubmit={handleLogin}>
                   <div className="mb-4">

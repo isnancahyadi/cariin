@@ -119,8 +119,9 @@ const Register = () => {
               <div id="form-content" className="container-fluid">
                 <h2 className="text-semibold mb-2">Halo, Guys</h2>
                 <p className="fs-6 text-muted mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                  euismod ipsum et dui rhoncus auctor.
+                  Bergabunglah dengan komunitas kami, temukan peluang karier
+                  terbaik di dunia teknologi, dan nikmati berbagai fitur
+                  unggulan kami.
                 </p>
                 <form onSubmit={handleRegister}>
                   <div className="mb-3">

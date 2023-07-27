@@ -111,9 +111,10 @@ const Hire = () => {
               <div id="message-content" className="container">
                 <h3 className="text-semibold">Hubungi {user?.fullname}</h3>
                 <p className="text-body-tertiary">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vestibulum erat orci, mollis nec gravida sed, ornare quis
-                  urna. Curabitur eu lacus fringilla, vestibulum risus at.
+                  Terima kasih telah mempercayai kami sebagai mitra perekrutan
+                  Anda. Hubungi Talent kami sekarang dan temukan calon karyawan
+                  yang akan memberikan kontribusi luar biasa bagi kesuksesan
+                  perusahaan Anda!
                 </p>
                 <div id="form-identity" className="mt-5">
                   <form onSubmit={sendMsgHandle}>

@@ -12,9 +12,12 @@ function Footer() {
         />
 
         <p className="text-white mt-3 mb-5">
-          Lorem ipsum dolor sit amet, consectetur <br /> adipiscing elit. In
-          euismod ipsum
-          <br /> et dui rhoncus auctor.
+          Temukan Peluang Karier Terbaik di Industri Teknologi.
+          <br />
+          Bergabunglah dengan ribuan profesional IT yang telah sukses menemukan
+          karier impian mereka melalui platform kami.
+          <br />
+          Mari bersama-sama menciptakan masa depan teknologi yang gemilang!
         </p>
 
         <hr className="solid" style={{ borderTop: "2px solid white" }} />

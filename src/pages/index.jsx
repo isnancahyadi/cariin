@@ -12,6 +12,13 @@ import ThomeContent from "@/components/ThomeContent";
 import CommentSection from "@/components/CommentSection";
 import Footer from "@/components/Footer";
 
+const LIST_SECOND_CONTENT = [
+  "Skill yang mumpuni dari setiap talent",
+  "Jaringan lebih luas",
+  "Mudah dijangkau",
+  "Talent yang berpengalaman",
+];
+
 const Home = () => {
   return (
     <>
@@ -38,8 +45,8 @@ const Home = () => {
                     revolusi 4.0
                   </h1>
                   <p className="d-block mb-5">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                    euismod ipsum et dui rhoncus auctor.
+                    Memuat talenta terbaik dari seluruh penjuru negri dan siap
+                    untuk memajukan negri dibidang teknologi.
                   </p>
                   <Link href="/jobs">
                     <button
@@ -78,7 +85,7 @@ const Home = () => {
                     <br />
                     di CariIn
                   </h2>
-                  {[...new Array(4)].map((item, key) => (
+                  {LIST_SECOND_CONTENT.map((item, key) => (
                     <div className="d-flex align-items-center mb-4" key={key}>
                       <div
                         className="rounded-circle me-2 d-flex justify-content-center align-items-center"
@@ -93,7 +100,7 @@ const Home = () => {
                           style={{ color: "white" }}
                         />
                       </div>
-                      <p className="ms-2 mb-0">Lorem ipsum dolor sit amet.</p>
+                      <p className="ms-2 mb-0">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -114,8 +121,8 @@ const Home = () => {
                     Skill Tallent
                   </h2>
                   <p className="d-block mb-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                    euismod ipsum et dui rhoncus auctor.
+                    Talent telah teruji diberbagai skill dibuktkan dengan
+                    sertifikat kemampuan bertaraf nasional dan internasional.
                   </p>
                   <div className="row">
                     <div className="col-md-6">
@@ -205,7 +212,7 @@ const Home = () => {
                 <div id="card" className="container">
                   <div className="row justify-content-between align-items-center">
                     <div id="title" className="col-auto">
-                      <h2>Lorem ipsum dolor sit amet</h2>
+                      <h2>Daftar sekarang juga</h2>
                     </div>
                     <div className="col-auto">
                       <Link href="/">
