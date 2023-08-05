@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+// import { setTimeout } from "timers/promises";
 
 import { getUser } from "@/store/reducer/userSlice";
 import Swal from "sweetalert2";
@@ -71,7 +72,13 @@ const EditProfile = () => {
   };
 
   const editHandle = async () => {
-    const payload = {
+    Swal.fire({
+      title: "Harap tunggu...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
+
+    const personalPayload = {
       fullname,
       company,
       job_title: jobDesk,
@@ -80,30 +87,76 @@ const EditProfile = () => {
       domicile,
     };
 
-    Swal.fire({
-      title: "Harap tunggu...",
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading(),
-    });
+    // const experiencePayload = new FormData();
+    // experience.forEach((exp, key) => {
+    //   experiencePayload.append("job_history", exp);
+    // });
 
-    const postPersonalData = () =>
-      axios.patch(process.env.NEXT_PUBLIC_PROFILE, payload);
-    const postSkills = () => {
+    const postPersonalData = async () => {
+      return await axios.patch(
+        process.env.NEXT_PUBLIC_PROFILE,
+        personalPayload
+      );
+    };
+
+    const postSkills = async () => {
       skills?.length === 0
         ? null
-        : axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
+        : await axios.post(process.env.NEXT_PUBLIC_SKILL, { skills });
     };
-    const postExperience = experience.map((obj) =>
-      axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-    );
-    const postPhotoProfile = () => {
+
+    // const postExperience = experience.map((obj) => {
+    //   setTimeout(async () => {
+    //     await axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     });
+    //   }, 5000);
+    //   // await setTimeout(3000);
+    //   // return await axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+    //   //   headers: {
+    //   //     "Content-Type": "multipart/form-data",
+    //   //   },
+    //   // });
+    //   // .then(({ data }) => data?.data);
+    // });
+
+    // const postExperience = async () => {
+    //   return await axios.post(process.env.NEXT_PUBLIC_JOB, experiencePayload, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    // };
+
+    // const postExperience = async () => {
+    //   experience.map(async (obj) => {
+    //     await axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     });
+    //     // setTimeout(postExperience, 3000);
+    //   });
+    // };
+
+    // const postExperience = () => {
+    //   experience.map((obj) => {
+    //     const add = axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     });
+
+    //     Promise.all([add]);
+    //   });
+    // };
+
+    const postPhotoProfile = async () => {
       profileImg === null
         ? null
-        : axios.patch(
+        : await axios.patch(
             `${process.env.NEXT_PUBLIC_PROFILE}/picture`,
             { photo: profileImg },
             {
@@ -114,10 +167,33 @@ const EditProfile = () => {
           );
     };
 
-    await Promise.allSettled([
+    // Promise.allSettled(postExperience);
+
+    // experience.forEach(async (obj) => {
+    //   await axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   setTimeout(5000);
+    // });
+
+    // await Promise.all(
+    //   experience.map(async (obj) => {
+    //     return await axios.post(process.env.NEXT_PUBLIC_JOB, obj, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     });
+    //   })
+    // ).then((result) => {
+    //   console.log(result);
+    // });
+
+    await Promise.all([
       postPersonalData(),
       postSkills(),
-      postExperience,
+      // postExperience,
       // sendExperience(),
       postPhotoProfile(),
     ])
@@ -150,6 +226,12 @@ const EditProfile = () => {
           icon: "error",
         });
       });
+
+    // experience.map((obj) => {
+    //   console.log(obj);
+    // });
+
+    // Promise.allSettled([postExperience()]).then((result) => result);
 
     // experience.map((obj) => {
     //   Promise.allSettled([obj])
@@ -192,8 +274,14 @@ const EditProfile = () => {
     });
   };
 
-  const experienceHandle = (e) => {
+  const experienceHandle = async (e) => {
     e.preventDefault();
+
+    Swal.fire({
+      title: "Harap tunggu...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
 
     const payload = {
       position: expPos,
@@ -203,14 +291,50 @@ const EditProfile = () => {
       photo: expImg,
     };
 
-    setExperience((prevState) => [...prevState, payload]);
-    setExpPos("");
-    setExpCompany("");
-    setExpDate("");
-    setExpDesc("");
-    setExpImg(null);
-    setExpViewImg(null);
-    setExpImgName("");
+    await axios
+      .post(process.env.NEXT_PUBLIC_JOB, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        dispatch(getUser());
+        Swal.fire({
+          title: "Berhasil",
+          text: "Pengalaman anda berhasil ditambah.",
+          icon: "success",
+        }).then(() => {
+          router.replace("/profile");
+        });
+      })
+      .catch(({ response }) => {
+        const getRes = Object.keys(response?.data?.messages);
+
+        let msgProperty = [];
+
+        getRes.map((item, key) => {
+          const {
+            [item]: { message },
+          } = response?.data?.messages;
+
+          msgProperty[key] = message;
+        });
+
+        Swal.fire({
+          title: "Tambah Gagal",
+          text: msgProperty.toString().split(".,").join(", "),
+          icon: "error",
+        });
+      });
+
+    // setExperience((prevState) => [...prevState, payload]);
+    // setExpPos("");
+    // setExpCompany("");
+    // setExpDate("");
+    // setExpDesc("");
+    // setExpImg(null);
+    // setExpViewImg(null);
+    // setExpImgName("");
   };
 
   return (
@@ -320,7 +444,7 @@ const EditProfile = () => {
                   <button
                     type="button"
                     className="btn btn btn-primary mt-4 border-2 fw-semibold"
-                    onClick={editHandle}
+                    onClick={() => editHandle()}
                     style={{
                       width: "100%",
                       paddingTop: "0.5rem",
@@ -612,7 +736,7 @@ const EditProfile = () => {
                           </button>
                         </div>
                       </form>
-                      <div className="d-grid mt-3">
+                      {/* <div className="d-grid mt-3">
                         {experience.map((item, key) => (
                           <div className="card mt-3" key={key}>
                             <div className="row g-0">
@@ -643,7 +767,7 @@ const EditProfile = () => {
                             </div>
                           </div>
                         ))}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
