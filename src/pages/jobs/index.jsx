@@ -135,7 +135,7 @@ const Jobs = () => {
                           </h6>
                           <p className="text-body-tertiary m-0">
                             <FontAwesomeIcon icon={faLocationDot} />{" "}
-                            {item.domicile}
+                            {item.domicile === "-" ? "Unknown" : item.domicile}
                           </p>
                           <div className="d-inline-flex mt-2">
                             {item.skills.map((skill, index) => (
