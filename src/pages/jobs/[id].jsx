@@ -82,21 +82,26 @@ const JobProfile = () => {
                       <h2 className="card-title">{jobProfile?.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
                         {jobProfile?.job_title === "-"
-                          ? "Unknown"
+                          ? "Pekerjaan tidak diketahui"
                           : jobProfile?.job_title}
+                      </h6>
+                      <h6 className="card-subtitle mb-2 text-body-secondary">
+                        {jobProfile?.company === "-"
+                          ? "Perusahaan tidak diketahui"
+                          : jobProfile?.company}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
                         <FontAwesomeIcon icon={faLocationDot} />{" "}
                         {jobProfile?.domicile === "-"
-                          ? "Unknown"
+                          ? "Lokasi tidak diketahui"
                           : jobProfile?.domicile}
                       </span>
                     </div>
                     <p className="card-text text-body-tertiary">
                       {jobProfile?.description === "-"
-                        ? "Unknown"
+                        ? "Tidak ada deskripsi"
                         : jobProfile?.description}
                     </p>
                     <Link href="">

@@ -74,20 +74,28 @@ const Profile = () => {
                     <div className="text-center mb-4">
                       <h2 className="card-title">{user?.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        {user?.job_title === "-" ? "Unknown" : user?.job_title}
+                        {user?.job_title === "-"
+                          ? "Pekerjaan tidak diketahui"
+                          : user?.job_title}
                       </h6>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        {user?.company === "-" ? "Unknown" : user?.company}
+                        {user?.company === "-"
+                          ? "Perusahaan tidak diketahui"
+                          : user?.company}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
                         <FontAwesomeIcon icon={faLocationDot} />{" "}
-                        {user?.domicile === "-" ? "Unknown" : user?.domicile}
+                        {user?.domicile === "-"
+                          ? "Lokasi tidak diketahui"
+                          : user?.domicile}
                       </span>
                     </div>
                     <p className="card-text text-body-tertiary">
-                      {user?.description}
+                      {user?.description === "-"
+                        ? "Tidak ada deskripsi"
+                        : user?.description}
                     </p>
                     <Link href="/profile/edit">
                       <button
