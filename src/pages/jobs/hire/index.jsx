@@ -82,16 +82,28 @@ const Hire = () => {
                   <div className="text-center mb-4">
                     <h3 className="card-title">{user?.fullname}</h3>
                     <h6 className="card-subtitle mb-2 text-body-secondary">
-                      {user?.job_title}
+                      {user?.job_title === "-"
+                        ? "Pekerjaan tidak diketahui"
+                        : user?.job_title}
+                    </h6>
+                    <h6 className="card-subtitle mb-2 text-body-secondary">
+                      {user?.company === "-"
+                        ? "Perusahaan tidak diketahui"
+                        : user?.company}
                     </h6>
                   </div>
                   <div className="text-start mb-2">
                     <span className="text-body-tertiary">
-                      <FontAwesomeIcon icon={faLocationDot} /> {user?.domicile}
+                      <FontAwesomeIcon icon={faLocationDot} />{" "}
+                      {user?.domicile === "-"
+                        ? "Lokasi tidak diketahui"
+                        : user?.domicile}
                     </span>
                   </div>
                   <p className="card-text text-body-tertiary">
-                    {user?.description}
+                    {user?.description === "-"
+                      ? "Tidak ada deskripsi"
+                      : user?.description}
                   </p>
                   <div id="skills" className="mt-5 mb-5">
                     <h4 className="fw-semibold">Skill</h4>
