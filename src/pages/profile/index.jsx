@@ -74,16 +74,16 @@ const Profile = () => {
                     <div className="text-center mb-4">
                       <h2 className="card-title">{user?.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        {user?.job_title}
+                        {user?.job_title === "-" ? "Unknown" : user?.job_title}
                       </h6>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        {user?.company}
+                        {user?.company === "-" ? "Unknown" : user?.company}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
                         <FontAwesomeIcon icon={faLocationDot} />{" "}
-                        {user?.domicile}
+                        {user?.domicile === "-" ? "Unknown" : user?.domicile}
                       </span>
                     </div>
                     <p className="card-text text-body-tertiary">
