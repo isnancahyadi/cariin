@@ -179,7 +179,7 @@ const Hire = () => {
                         type="submit"
                         className="btn btn-tertiary fw-semibold pt-2 pb-2 mt-4"
                       >
-                        Hire
+                        Kirim Pesan
                       </button>
                     </div>
                   </form>

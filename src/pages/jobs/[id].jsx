@@ -81,17 +81,23 @@ const JobProfile = () => {
                     <div className="text-center mb-4">
                       <h2 className="card-title">{jobProfile?.fullname}</h2>
                       <h6 className="card-subtitle mb-2 text-body-secondary">
-                        {jobProfile?.job_title}
+                        {jobProfile?.job_title === "-"
+                          ? "Unknown"
+                          : jobProfile?.job_title}
                       </h6>
                     </div>
                     <div className="text-start mb-2">
                       <span className="text-body-tertiary">
                         <FontAwesomeIcon icon={faLocationDot} />{" "}
-                        {jobProfile?.domicile}
+                        {jobProfile?.domicile === "-"
+                          ? "Unknown"
+                          : jobProfile?.domicile}
                       </span>
                     </div>
                     <p className="card-text text-body-tertiary">
-                      {jobProfile?.description}
+                      {jobProfile?.description === "-"
+                        ? "Unknown"
+                        : jobProfile?.description}
                     </p>
                     <Link href="">
                       <button
@@ -104,7 +110,7 @@ const JobProfile = () => {
                         }}
                         onClick={() => hireHandle(jobProfile)}
                       >
-                        Hire
+                        Hubungi
                       </button>
                     </Link>
 
