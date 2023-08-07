@@ -9,6 +9,7 @@
 - [Configuration](#configuration)
 - [Features](#features)
 - [Screenshot](#screenshot)
+- [Related Project](#related-project)
 - [Authors and Contact Info](#authors-and-contact-info)
 
 ## Introduction
@@ -108,6 +109,10 @@ NEXT_PUBLIC_BACKEND_API=your_backend_api
         </td>
     </tr>
 </table>
+
+## Related Project
+
+- :link: [CariIn API](https://github.com/isnancahyadi/cariin-api-v2)
 
 ## Authors and Contact Info
 
