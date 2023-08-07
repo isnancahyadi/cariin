@@ -112,7 +112,7 @@ NEXT_PUBLIC_BACKEND_API=your_backend_api
 
 ## Related Project
 
-- :link: [CariIn API](https://github.com/isnancahyadi/cariin-api-v2)
+- :link: [CariIn API](https://github.com/isnancahyadi/cariin-api)
 
 ## Authors and Contact Info
 
