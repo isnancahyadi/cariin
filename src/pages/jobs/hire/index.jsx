@@ -49,7 +49,26 @@ const Hire = () => {
           router.replace(`/jobs/${user?.id}`);
         });
       })
-      .catch((response) => console.log(response));
+      .catch(({ response }) => {
+        const getRes = Object.keys(response?.data?.messages);
+
+        let msgProperty = [];
+
+        getRes.map((item, key) => {
+          const {
+            [item]: { message },
+          } = response?.data?.messages;
+
+          msgProperty[key] = message;
+        });
+
+        Swal.fire({
+          title: "Pesan Tidak Terkirim",
+          text:
+            msgProperty.toString().split(".,").join(", ") ?? "Kesalahan Server",
+          icon: "error",
+        });
+      });
   };
 
   return (

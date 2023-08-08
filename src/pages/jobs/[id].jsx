@@ -104,7 +104,7 @@ const JobProfile = () => {
                         ? "Tidak ada deskripsi"
                         : jobProfile?.description}
                     </p>
-                    <Link href="">
+                    <Link href="/jobs/hire">
                       <button
                         type="button"
                         className="btn btn btn-primary mt-4 border-2 fw-semibold"
