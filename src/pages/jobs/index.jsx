@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { storeJob } from "@/store/reducer/jobSlice";
 import Swal from "sweetalert2";
 import axios from "axios";
+import _debounce from "lodash/debounce";
 
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
@@ -18,6 +19,7 @@ import {
 import SkeletonLoad from "@/components/SkeletonLoad";
 
 const Jobs = () => {
+  const [querySearch, setQuerySearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
@@ -32,25 +34,48 @@ const Jobs = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    axios
-      .get(`${process.env.NEXT_PUBLIC_JOB}?page=${currentPage}`)
-      .then((response) => {
-        const lastData = removeData(response?.data?.data?.rows, user?.id);
+    if (querySearch !== "") {
+      axios
+        .get(
+          `${
+            process.env.NEXT_PUBLIC_JOB
+          }/filter?keyword=${querySearch.toLowerCase()}`
+        )
+        .then((response) => {
+          setJobList(response?.data?.data);
+          setTotalPage(0);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(`${process.env.NEXT_PUBLIC_JOB}?page=${currentPage}`)
+        .then((response) => {
+          const lastData = removeData(response?.data?.data?.rows, user?.id);
 
-        setJobList(lastData);
-        setTotalPage(response?.data?.data?.total_page);
-        dispatch(storeJob(response?.data?.data?.rows));
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [currentPage]);
+          setJobList(lastData);
+          setTotalPage(response?.data?.data?.total_page);
+          dispatch(storeJob(response?.data?.data?.rows));
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [querySearch, currentPage]);
 
   const pageNumber = [];
   for (let index = 1; index <= totalPage; index++) {
     pageNumber.push(index);
   }
+
+  const handleSearch = (keyword) => {
+    setQuerySearch(keyword);
+  };
+
+  const debounce = useCallback(_debounce(handleSearch, 1000), []);
 
   return (
     <>
@@ -70,6 +95,14 @@ const Jobs = () => {
               type="text"
               className="form-control form-control-lg"
               placeholder="Cari untuk skill apapun"
+              onChange={(e) => {
+                debounce(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e.target.value);
+                }
+              }}
             />
             <div className="action d-inline-flex justify-content-center align-items-center">
               <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
@@ -109,6 +142,12 @@ const Jobs = () => {
             <div className="container">
               {isLoading ? (
                 <SkeletonLoad type={"listjob"} />
+              ) : !jobList.length ? (
+                <div className="text-center">
+                  <h5 className="text-body-tertiary">
+                    Data {querySearch} tidak ditemukan
+                  </h5>
+                </div>
               ) : (
                 jobList.map((item, key) => (
                   <>

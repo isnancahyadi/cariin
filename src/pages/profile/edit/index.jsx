@@ -222,7 +222,8 @@ const EditProfile = () => {
 
         Swal.fire({
           title: "Update Gagal",
-          text: msgProperty.toString().split(".,").join(", "),
+          text:
+            msgProperty.toString().split(".,").join(", ") ?? "Kesalahan Server",
           icon: "error",
         });
       });
