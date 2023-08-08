@@ -210,40 +210,23 @@ const Jobs = () => {
             </div>
           </div>
 
-          <div className="pagination">
-            <div className="container d-flex justify-content-center align-items-center">
-              <Link
-                href=""
-                style={{
-                  pointerEvents: `${currentPage === 1 ? "none" : "auto"}`,
-                }}
-              >
-                <button
-                  type="button"
-                  className="btn btn btn-secondary border-1"
-                  onClick={() => {
-                    setCurrentPage(currentPage - 1);
-                  }}
+          {querySearch !== "" ? (
+            <></>
+          ) : (
+            <div className="pagination">
+              <div className="container d-flex justify-content-center align-items-center">
+                <Link
+                  href=""
                   style={{
-                    width: "50px",
-                    height: "50px",
-                    padding: "0",
-                    marginLeft: ".5rem",
-                    marginRight: ".5rem",
+                    pointerEvents: `${currentPage === 1 ? "none" : "auto"}`,
                   }}
-                  disabled={currentPage === 1}
                 >
-                  <FontAwesomeIcon icon={faAngleLeft} />
-                </button>
-              </Link>
-              {pageNumber.map((item, key) => (
-                <Link href="" key={key}>
                   <button
                     type="button"
-                    className={`btn btn btn-secondary border-1 ${
-                      currentPage === item ? "active" : ""
-                    }`}
-                    onClick={() => setCurrentPage(item)}
+                    className="btn btn btn-secondary border-1"
+                    onClick={() => {
+                      setCurrentPage(currentPage - 1);
+                    }}
                     style={{
                       width: "50px",
                       height: "50px",
@@ -251,36 +234,57 @@ const Jobs = () => {
                       marginLeft: ".5rem",
                       marginRight: ".5rem",
                     }}
+                    disabled={currentPage === 1}
                   >
-                    <h6 className="m-0 p-0">{item}</h6>
+                    <FontAwesomeIcon icon={faAngleLeft} />
                   </button>
                 </Link>
-              ))}
-              <Link
-                href=""
-                style={{
-                  pointerEvents: `${
-                    currentPage === pageNumber.length ? "none" : "auto"
-                  }`,
-                }}
-              >
-                <button
-                  type="button"
-                  className="btn btn btn-secondary border-1"
+                {pageNumber.map((item, key) => (
+                  <Link href="" key={key}>
+                    <button
+                      type="button"
+                      className={`btn btn btn-secondary border-1 ${
+                        currentPage === item ? "active" : ""
+                      }`}
+                      onClick={() => setCurrentPage(item)}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        padding: "0",
+                        marginLeft: ".5rem",
+                        marginRight: ".5rem",
+                      }}
+                    >
+                      <h6 className="m-0 p-0">{item}</h6>
+                    </button>
+                  </Link>
+                ))}
+                <Link
+                  href=""
                   style={{
-                    width: "50px",
-                    height: "50px",
-                    padding: "0",
-                    marginLeft: ".5rem",
-                    marginRight: ".5rem",
+                    pointerEvents: `${
+                      currentPage === pageNumber.length ? "none" : "auto"
+                    }`,
                   }}
-                  disabled={currentPage === pageNumber.length}
                 >
-                  <FontAwesomeIcon icon={faAngleRight} />
-                </button>
-              </Link>
+                  <button
+                    type="button"
+                    className="btn btn btn-secondary border-1"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      padding: "0",
+                      marginLeft: ".5rem",
+                      marginRight: ".5rem",
+                    }}
+                    disabled={currentPage === pageNumber.length}
+                  >
+                    <FontAwesomeIcon icon={faAngleRight} />
+                  </button>
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <Footer />
       </div>
